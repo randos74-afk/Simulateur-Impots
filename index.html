@@ -3,1270 +3,734 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="description" content="Simulateur fiscal frais réels 2025 - Déclaration 2026 - Conforme barème DGFiP">
+<meta name="description" content="Simulateur fiscal France 2025 - Déclaration 2026 - Frais réels, IR, déductions, réductions, crédits d'impôt - Conforme DGFiP">
 <meta name="theme-color" content="#1a3a7e">
-<title>Simulateur Fiscal 2025 — Frais Réels</title>
-<!-- Polices système — aucune dépendance externe, fonctionne hors connexion -->
-
+<title>Simulateur Fiscal 2025 — Déclaration 2026</title>
 <style>
-/* ══════════════════════════════════════════════════
-   RESET & VARIABLES
-══════════════════════════════════════════════════ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --blue:    #1a3a7e;
-  --blue-lt: #e6f1fb;
-  --blue-md: #378ADD;
-  --green:   #0F6E56;
-  --green-lt:#e1f5ee;
-  --green-bd:#1D9E75;
-  --pur:     #4C1D95;
-  --pur-lt:  #ede9fe;
-  --pur-bd:  #8B5CF6;
-  --amber:   #854F0B;
-  --amber-lt:#faeeda;
-  --amber-bd:#BA7517;
-  --bg:      #f0eff0;
-  --surface: #ffffff;
-  --border:  rgba(0,0,0,.10);
-  --text:    #1a1a18;
-  --text2:   #555;
-  --text3:   #888;
-  --radius:  12px;
-  --radius-sm: 8px;
-  --shadow:  0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
-  --shadow-md: 0 4px 12px rgba(0,0,0,.10);
-  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a3a7e;--blue-d:#122d62;--blue-lt:#e6f1fb;--blue-md:#378ADD;
+  --green:#085041;--green-lt:#e1f5ee;--green-bd:#1D9E75;
+  --pur:#4C1D95;--pur-lt:#ede9fe;--pur-bd:#8B5CF6;
+  --amber:#854F0B;--amber-lt:#faeeda;--amber-bd:#BA7517;
+  --bg:#f0eff0;--surface:#fff;--border:rgba(0,0,0,.10);
+  --text:#1a1a18;--text2:#555;--text3:#888;
+  --r:12px;--r-sm:8px;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:0 4px 12px rgba(0,0,0,.10);
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono','Cascadia Code','Consolas',monospace;
 }
-
-html { font-size: 16px; -webkit-text-size-adjust: 100%; }
-
-body {
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  padding-bottom: 3rem;
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:4rem}
+.hdr{background:var(--blue);color:#fff;padding:.875rem 1rem .75rem;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-md)}
+.hdr h1{font-size:.95rem;font-weight:600;letter-spacing:-.01em;line-height:1.2}
+.hdr .sub{font-size:.67rem;opacity:.75;margin-top:2px;line-height:1.4}
+.nav{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:58px;z-index:99;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav-tabs{display:flex;padding:0 .5rem;min-width:max-content}
+.nt{padding:.6rem .85rem;font-size:.77rem;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;-webkit-tap-highlight-color:transparent;user-select:none;transition:color .15s,border-color .15s;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--font)}
+.nt.active{color:var(--blue);border-bottom-color:var(--blue)}
+.nt.tg.active{color:#0F6E56;border-bottom-color:var(--green-bd)}
+.nt.tp.active{color:var(--pur);border-bottom-color:var(--pur-bd)}
+.nt.tb.active{color:#185FA5;border-bottom-color:var(--blue-md)}
+.main{padding:.75rem .75rem 0;max-width:680px;margin:0 auto}
+.panel{display:none}.panel.active{display:block}
+.sec{background:var(--surface);border-radius:var(--r);padding:.875rem 1rem;margin-bottom:.75rem;box-shadow:var(--shadow)}
+.sec-t{font-size:.67rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.field{margin-bottom:.55rem}.field:last-child{margin-bottom:0}
+.field label{display:block;font-size:.78rem;color:var(--text2);margin-bottom:.25rem;line-height:1.3}
+.field input,.field select{width:100%;font-size:1rem;font-family:var(--font);padding:.55rem .7rem;border:1.5px solid var(--border);border-radius:var(--r-sm);background:var(--bg);color:var(--text);min-height:44px;-webkit-appearance:none;appearance:none;transition:border-color .15s}
+.field input:focus,.field select:focus{outline:none;border-color:var(--blue-md);background:#fff}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7rem center;padding-right:2rem}
+.row{display:grid;grid-template-columns:1fr;gap:.55rem}
+@media(min-width:460px){.row{grid-template-columns:1fr 1fr}}
+.row3{display:grid;grid-template-columns:1fr;gap:.55rem}
+@media(min-width:460px){.row3{grid-template-columns:1fr 1fr 1fr}}
+.ib{font-size:.73rem;color:var(--text2);background:var(--bg);border-radius:var(--r-sm);padding:.45rem .7rem;margin-top:.4rem;line-height:1.55}
+.ib.warn{background:#fffbeb;color:#78350f;border:1px solid #fbbf24}
+.ib.ok{background:var(--green-lt);color:var(--green);border:1px solid var(--green-bd)}
+.miss{background:var(--amber-lt);border:1px solid var(--amber-bd);border-radius:var(--r-sm);padding:.7rem;margin-top:.5rem}
+.miss-t{font-size:.73rem;font-weight:600;color:#634806;margin-bottom:.35rem}
+.miss-i{font-size:.73rem;color:var(--amber);padding:2px 0;display:flex;gap:6px}
+.miss-i::before{content:"?";font-weight:600;flex-shrink:0;color:var(--amber-bd)}
+.ttbox{background:var(--blue-lt);border:1px solid var(--blue-md);border-radius:var(--r-sm);padding:.7rem;margin-top:.5rem}
+.ttbox-l{font-size:.73rem;color:#185FA5;font-weight:600;margin-bottom:2px}
+.ttbox-v{font-size:1.15rem;font-weight:600;color:#0C447C;font-family:var(--mono)}
+.ttbox-n{font-size:.68rem;color:#185FA5;margin-top:2px}
+.badge{display:inline-flex;align-items:center;font-size:.62rem;font-weight:600;padding:1px 6px;border-radius:20px}
+.bok{background:#dcfce7;color:#166534}.bwarn{background:var(--amber-lt);color:var(--amber)}.bblue{background:var(--blue-lt);color:#185FA5}
+.ct{display:inline-block;font-size:.6rem;font-weight:700;font-family:var(--mono);background:var(--blue);color:#fff;border-radius:3px;padding:1px 4px;margin-left:2px;vertical-align:middle}
+.sn{font-size:.76rem;color:var(--text3);margin-bottom:.75rem;padding:.4rem 0;line-height:1.5}
+.hl{border-radius:var(--r);padding:.875rem 1rem;margin-bottom:.65rem}
+.hl-grn{background:var(--green-lt);border:1.5px solid var(--green-bd)}
+.hl-blu{background:var(--blue-lt);border:1.5px solid var(--blue-md)}
+.hl-pur{background:var(--pur-lt);border:1.5px solid var(--pur-bd)}
+.hl-amber{background:var(--amber-lt);border:1.5px solid var(--amber-bd)}
+.hl-l{font-size:.73rem;font-weight:600;margin-bottom:3px}
+.hl-grn .hl-l{color:var(--green)}.hl-blu .hl-l{color:#185FA5}.hl-pur .hl-l{color:var(--pur)}.hl-amber .hl-l{color:var(--amber)}
+.hl-v{font-size:1.6rem;font-weight:600;font-family:var(--mono);line-height:1}
+.hl-grn .hl-v{color:#085041}.hl-blu .hl-v{color:#0C447C}.hl-pur .hl-v{color:var(--pur)}.hl-amber .hl-v{color:var(--amber)}
+.hl-sub{font-size:.7rem;margin-top:3px;opacity:.8}
+.dr{display:flex;justify-content:space-between;align-items:flex-start;font-size:.78rem;padding:.4rem 0;border-bottom:1px solid var(--border);color:var(--text2);gap:.4rem}
+.dr:last-child{border-bottom:none}
+.dr-l{flex:1;line-height:1.4}.dr-v{font-weight:600;color:var(--text);white-space:nowrap;font-family:var(--mono);font-size:.75rem;flex-shrink:0}
+.card{background:var(--surface);border-radius:var(--r);padding:.75rem 1rem;border:1px solid var(--border);margin-bottom:.65rem;box-shadow:var(--shadow)}
+.btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:.75rem 1rem;border:none;border-radius:var(--r);font-size:.88rem;font-weight:600;font-family:var(--font);cursor:pointer;min-height:48px;-webkit-tap-highlight-color:transparent;transition:background .15s,transform .1s;box-shadow:var(--shadow-md)}
+.btn:active{transform:scale(.98)}
+.btn-blue{background:var(--blue);color:#fff}.btn-blue:active{background:var(--blue-d)}
+.btn-outline{background:transparent;color:var(--blue);border:1.5px solid var(--blue)}.btn-outline:active{background:var(--blue-lt)}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.75rem}
+@media(max-width:380px){.btn-row{grid-template-columns:1fr}}
+.chart-wrap{margin-top:.5rem}
+.bar-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
+.bar-label{font-size:.67rem;color:var(--text2);width:110px;flex-shrink:0;line-height:1.2}
+.bar-track{flex:1;height:16px;background:var(--bg);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px}
+.bar-val{font-size:.67rem;font-weight:600;font-family:var(--mono);color:var(--text);width:35px;text-align:right;flex-shrink:0}
+.footer{text-align:center;padding:1.5rem .75rem 1rem;font-size:.68rem;color:var(--text3);line-height:1.6;max-width:680px;margin:0 auto}
+.footer strong{color:var(--text2)}
+/* ── ZONE IMPRESSION ── */
+#pz{display:none}
+@media print{
+  @page{size:A4 portrait;margin:14mm 12mm 14mm 12mm}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+  body>*{display:none !important}
+  #pz{display:block !important}
 }
-
-/* ══════════════════════════════════════════════════
-   HEADER
-══════════════════════════════════════════════════ */
-.app-header {
-  background: var(--blue);
-  color: #fff;
-  padding: 1rem 1rem .75rem;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: var(--shadow-md);
-}
-.app-header h1 {
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: -.01em;
-  line-height: 1.2;
-}
-.app-header .sub {
-  font-size: .7rem;
-  opacity: .75;
-  margin-top: 2px;
-  line-height: 1.4;
-}
-
-/* ══════════════════════════════════════════════════
-   NAVIGATION PAR ONGLETS (mobile-first, scroll horizontal)
-══════════════════════════════════════════════════ */
-.nav-wrap {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 64px;
-  z-index: 99;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.nav-wrap::-webkit-scrollbar { display: none; }
-
-.nav-tabs {
-  display: flex;
-  padding: 0 .75rem;
-  gap: 0;
-  min-width: max-content;
-}
-.nav-tab {
-  padding: .65rem .9rem;
-  font-size: .8rem;
-  font-weight: 500;
-  color: var(--text3);
-  cursor: pointer;
-  border-bottom: 2.5px solid transparent;
-  white-space: nowrap;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-  transition: color .15s, border-color .15s;
-  background: none;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  font-family: var(--font);
-}
-.nav-tab.active {
-  color: var(--blue);
-  border-bottom-color: var(--blue);
-}
-.nav-tab.tab-green.active  { color: var(--green);  border-bottom-color: var(--green-bd); }
-.nav-tab.tab-purple.active { color: var(--pur);    border-bottom-color: var(--pur-bd);   }
-.nav-tab.tab-blue.active   { color: #185FA5;       border-bottom-color: var(--blue-md);  }
-
-/* ══════════════════════════════════════════════════
-   CONTENU PRINCIPAL
-══════════════════════════════════════════════════ */
-.main { padding: .75rem .75rem 0; max-width: 700px; margin: 0 auto; }
-
-.panel { display: none; }
-.panel.active { display: block; }
-
-/* ══════════════════════════════════════════════════
-   SECTIONS & CHAMPS
-══════════════════════════════════════════════════ */
-.section {
-  background: var(--surface);
-  border-radius: var(--radius);
-  padding: 1rem;
-  margin-bottom: .75rem;
-  box-shadow: var(--shadow);
-}
-.section-title {
-  font-size: .7rem;
-  font-weight: 600;
-  color: var(--text3);
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  margin-bottom: .875rem;
-  padding-bottom: .5rem;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  flex-wrap: wrap;
-}
-
-.field { margin-bottom: .6rem; }
-.field:last-child { margin-bottom: 0; }
-
-.field label {
-  display: block;
-  font-size: .8rem;
-  color: var(--text2);
-  margin-bottom: .3rem;
-  line-height: 1.3;
-}
-
-/* CRITIQUE iOS: min font-size 16px pour éviter le zoom Safari */
-.field input,
-.field select {
-  width: 100%;
-  font-size: 1rem; /* 16px — empêche le zoom iOS Safari */
-  font-family: var(--font);
-  padding: .6rem .75rem;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--bg);
-  color: var(--text);
-  min-height: 44px; /* Apple HIG touch target */
-  -webkit-appearance: none;
-  appearance: none;
-  transition: border-color .15s;
-}
-.field input:focus,
-.field select:focus {
-  outline: none;
-  border-color: var(--blue-md);
-  background: #fff;
-}
-/* Flèche custom pour select sur iOS */
-.field select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right .75rem center;
-  padding-right: 2.2rem;
-}
-
-/* Grille 2 colonnes — 1 colonne sur mobile étroit */
-.row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: .6rem;
-}
-@media (min-width: 480px) {
-  .row { grid-template-columns: 1fr 1fr; }
-}
-
-.row3 {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: .6rem;
-}
-@media (min-width: 480px) {
-  .row3 { grid-template-columns: 1fr 1fr 1fr; }
-}
-
-/* ══════════════════════════════════════════════════
-   COMPOSANTS VISUELS
-══════════════════════════════════════════════════ */
-.info-box {
-  font-size: .75rem;
-  color: var(--text2);
-  background: var(--bg);
-  border-radius: var(--radius-sm);
-  padding: .5rem .75rem;
-  margin-top: .5rem;
-  line-height: 1.55;
-}
-.info-box.warn {
-  background: #fffbeb;
-  color: #78350f;
-  border: 1px solid #fbbf24;
-}
-
-.miss-box {
-  background: var(--amber-lt);
-  border: 1px solid var(--amber-bd);
-  border-radius: var(--radius-sm);
-  padding: .75rem;
-  margin-top: .5rem;
-}
-.miss-title { font-size: .75rem; font-weight: 600; color: #634806; margin-bottom: .4rem; }
-.miss-item  { font-size: .75rem; color: var(--amber); padding: 2px 0; display: flex; gap: 6px; }
-.miss-item::before { content: "?"; font-weight: 600; flex-shrink: 0; color: var(--amber-bd); }
-
-.tt-box {
-  background: var(--blue-lt);
-  border: 1px solid var(--blue-md);
-  border-radius: var(--radius-sm);
-  padding: .75rem;
-  margin-top: .5rem;
-}
-.tt-label { font-size: .75rem; color: #185FA5; font-weight: 600; margin-bottom: 2px; }
-.tt-value { font-size: 1.2rem; font-weight: 600; color: #0C447C; font-family: var(--mono); }
-.tt-note  { font-size: .7rem; color: #185FA5; margin-top: 2px; }
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  font-size: .65rem;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 20px;
-}
-.b-ok   { background: #dcfce7; color: #166534; }
-.b-warn { background: var(--amber-lt); color: var(--amber); }
-.b-blue { background: var(--blue-lt); color: #185FA5; }
-
-/* Case impôts */
-.ct {
-  display: inline-block;
-  font-size: .62rem;
-  font-weight: 700;
-  font-family: var(--mono);
-  background: var(--blue);
-  color: #fff;
-  border-radius: 4px;
-  padding: 1px 5px;
-  margin-left: 3px;
-  vertical-align: middle;
-  letter-spacing: .03em;
-}
-
-.section-note {
-  font-size: .78rem;
-  color: var(--text3);
-  margin-bottom: .75rem;
-  line-height: 1.5;
-}
-
-/* ══════════════════════════════════════════════════
-   RÉSULTATS
-══════════════════════════════════════════════════ */
-.highlight {
-  border-radius: var(--radius);
-  padding: 1rem;
-  margin-bottom: .75rem;
-}
-.hl-grn { background: var(--green-lt); border: 1.5px solid var(--green-bd); }
-.hl-blu { background: var(--blue-lt);  border: 1.5px solid var(--blue-md);  }
-.hl-pur { background: var(--pur-lt);   border: 1.5px solid var(--pur-bd);   }
-
-.hl-label { font-size: .75rem; font-weight: 600; margin-bottom: 4px; }
-.hl-grn .hl-label { color: var(--green); }
-.hl-blu .hl-label { color: #185FA5; }
-.hl-pur .hl-label { color: var(--pur); }
-
-.hl-value { font-size: 1.75rem; font-weight: 600; font-family: var(--mono); line-height: 1; }
-.hl-grn .hl-value { color: #085041; }
-.hl-blu .hl-value { color: #0C447C; }
-.hl-pur .hl-value { color: var(--pur); }
-
-.detail-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  font-size: .8rem;
-  padding: .45rem 0;
-  border-bottom: 1px solid var(--border);
-  color: var(--text2);
-  gap: .5rem;
-}
-.detail-row:last-child { border-bottom: none; }
-.detail-row .dr-label { flex: 1; line-height: 1.4; }
-.detail-row .dr-val   { font-weight: 600; color: var(--text); white-space: nowrap; font-family: var(--mono); font-size: .78rem; flex-shrink: 0; }
-
-.card {
-  background: var(--surface);
-  border-radius: var(--radius);
-  padding: .875rem 1rem;
-  border: 1px solid var(--border);
-  margin-bottom: .75rem;
-  box-shadow: var(--shadow);
-}
-
-/* ══════════════════════════════════════════════════
-   BOUTON EXPORT — pleine largeur sur mobile
-══════════════════════════════════════════════════ */
-.export-section {
-  margin-bottom: .75rem;
-}
-.exp-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .5rem;
-  width: 100%;
-  padding: .8rem 1rem;
-  background: var(--blue);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  font-size: .9rem;
-  font-weight: 600;
-  font-family: var(--font);
-  cursor: pointer;
-  min-height: 48px;
-  -webkit-tap-highlight-color: transparent;
-  transition: background .15s, transform .1s;
-  box-shadow: var(--shadow-md);
-}
-.exp-btn:active { transform: scale(.98); background: #122d62; }
-
-/* ══════════════════════════════════════════════════
-   FOOTER COPYRIGHT
-══════════════════════════════════════════════════ */
-.app-footer {
-  text-align: center;
-  padding: 1.5rem .75rem 1rem;
-  font-size: .7rem;
-  color: var(--text3);
-  line-height: 1.6;
-  max-width: 700px;
-  margin: 0 auto;
-}
-.app-footer strong { color: var(--text2); }
-
-/* ══════════════════════════════════════════════════
-   ZONE IMPRESSION — cachée à l'écran
-══════════════════════════════════════════════════ */
-#pz { display: none; }
-
-/* ══════════════════════════════════════════════════
-   STYLES IMPRESSION / PDF
-══════════════════════════════════════════════════ */
-@media print {
-  @page { size: A4; margin: 15mm 13mm 15mm 13mm; }
-
-  body,
-  .app-header,
-  .nav-wrap,
-  .main,
-  .panel,
-  .app-footer,
-  .exp-btn,
-  .export-section { display: none !important; }
-
-  #pz { display: block !important; }
-}
-
-/* Styles du document imprimé */
-#pz {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 9pt;
-  color: #000;
-  max-width: 184mm;
-  margin: 0 auto;
-  line-height: 1.4;
-}
-#pz .ph { display: flex; justify-content: space-between; border-bottom: 2pt solid #1a3a7e; padding-bottom: 7pt; margin-bottom: 10pt; }
-#pz .ph h2 { font-size: 12.5pt; font-weight: bold; color: #1a3a7e; margin-bottom: 2pt; }
-#pz .ph p  { font-size: 8pt; color: #555; }
-#pz .phr   { text-align: right; font-size: 8pt; color: #555; }
-#pz .phr strong { color: #1a3a7e; display: block; font-size: 8.5pt; margin-bottom: 1pt; }
-#pz .ps { margin-bottom: 9pt; page-break-inside: avoid; }
-#pz .pst { font-size: 8pt; font-weight: bold; text-transform: uppercase; letter-spacing: .05em; color: #1a3a7e; border-bottom: .5pt solid #1a3a7e; padding-bottom: 2pt; margin-bottom: 4pt; }
-#pz table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
-#pz th { background: #1a3a7e; color: #fff; padding: 3pt 5pt; text-align: left; font-size: 8pt; }
-#pz td { padding: 3pt 5pt; border-bottom: .4pt solid #ddd; vertical-align: top; }
-#pz .num  { text-align: right; font-weight: 600; white-space: nowrap; }
-#pz .note { color: #666; font-size: 7.5pt; }
-#pz .tot td { background: #1a3a7e; color: #fff; font-weight: bold; font-size: 9pt; }
-#pz .tot .num { color: #fff; }
-#pz .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2pt 12pt; margin-bottom: 7pt; }
-#pz .kv { display: flex; justify-content: space-between; border-bottom: .3pt dotted #ccc; padding: 1.5pt 0; font-size: 8pt; }
-#pz .kv span:last-child { font-weight: 600; }
-#pz .verd { border: 1.5pt solid #1D9E75; border-radius: 3pt; padding: 6pt 9pt; margin: 7pt 0; background: #f0faf6; page-break-inside: avoid; }
-#pz .verd-l { font-size: 8pt; color: #0F6E56; font-weight: bold; margin-bottom: 2pt; }
-#pz .verd-v { font-size: 14pt; font-weight: bold; }
-#pz .verd-s { font-size: 7.5pt; color: #444; margin-top: 3pt; line-height: 1.5; }
-#pz .abox { border: 1pt solid #BA7517; border-radius: 3pt; padding: 5pt 7pt; background: #faeeda; font-size: 8pt; color: #634806; margin-bottom: 7pt; }
-#pz .abox b { display: block; margin-bottom: 2pt; }
-#pz .rub { background: #f5f8ff; border: 1pt solid #1a3a7e; border-radius: 3pt; padding: 5pt 9pt; margin: 7pt 0; page-break-inside: avoid; }
-#pz .rub-t { font-size: 8pt; font-weight: bold; color: #1a3a7e; margin-bottom: 3pt; }
-#pz .cb { display: inline-block; font-size: 7pt; font-weight: 700; background: #1a3a7e; color: #fff; border-radius: 2pt; padding: 0 3pt; margin-right: 2pt; }
-#pz .foot { margin-top: 9pt; border-top: .5pt solid #ccc; padding-top: 4pt; font-size: 7pt; color: #777; line-height: 1.5; }
-#pz .refs { margin-top: 5pt; font-size: 7pt; color: #555; }
-#pz .refs b { display: block; margin-bottom: 1pt; }
-#pz .cprt { margin-top: 4pt; font-size: 6.5pt; color: #999; }
+/* Styles document imprimé */
+#pz{font-family:Arial,Helvetica,sans-serif;font-size:9pt;color:#000;line-height:1.4;width:100%}
+.p-hdr{display:flex;justify-content:space-between;align-items:flex-start;background:#1a3a7e;color:#fff;padding:8pt 10pt;margin-bottom:10pt;border-radius:3pt}
+.p-hdr h2{font-size:12pt;font-weight:bold;margin-bottom:2pt}
+.p-hdr p{font-size:8pt;opacity:.85}
+.p-hdr-r{text-align:right;font-size:8pt;opacity:.85}
+.p-hdr-r strong{display:block;font-size:8.5pt;opacity:1;margin-bottom:1pt}
+.p-sec{margin-bottom:9pt;page-break-inside:avoid}
+.p-sec-t{font-size:8pt;font-weight:bold;text-transform:uppercase;letter-spacing:.05em;color:#1a3a7e;border-bottom:.5pt solid #1a3a7e;padding-bottom:2pt;margin-bottom:4pt}
+.p-grid{display:grid;grid-template-columns:1fr 1fr;gap:2pt 12pt;margin-bottom:7pt}
+.p-kv{display:flex;justify-content:space-between;border-bottom:.3pt dotted #ccc;padding:1.5pt 0;font-size:8pt}
+.p-kv span:last-child{font-weight:600}
+.p-tbl{width:100%;border-collapse:collapse;font-size:8.5pt;margin-bottom:4pt}
+.p-tbl th{background:#1a3a7e;color:#fff;padding:3pt 5pt;text-align:left;font-size:8pt;font-weight:500}
+.p-tbl td{padding:3pt 5pt;border-bottom:.4pt solid #ddd;vertical-align:top}
+.p-num{text-align:right;font-weight:600;white-space:nowrap}
+.p-note{color:#666;font-size:7.5pt}
+.p-tot td{background:#1a3a7e;color:#fff;font-weight:bold;font-size:9pt}
+.p-verd{border:1.5pt solid #1D9E75;border-radius:3pt;padding:6pt 9pt;margin:7pt 0;background:#f0faf6;page-break-inside:avoid}
+.p-verd-l{font-size:8pt;color:#0F6E56;font-weight:bold;margin-bottom:2pt}
+.p-verd-v{font-size:13pt;font-weight:bold}
+.p-verd-s{font-size:7.5pt;color:#444;margin-top:3pt;line-height:1.5}
+.p-ir{border:1.5pt solid #1a3a7e;border-radius:3pt;padding:6pt 9pt;margin:7pt 0;background:#e6f1fb;page-break-inside:avoid}
+.p-ir-l{font-size:8pt;color:#185FA5;font-weight:bold;margin-bottom:2pt}
+.p-ir-v{font-size:13pt;font-weight:bold;color:#0C447C}
+.p-rub{background:#f5f8ff;border:1pt solid #1a3a7e;border-radius:3pt;padding:5pt 9pt;margin:7pt 0;page-break-inside:avoid}
+.p-rub-t{font-size:8pt;font-weight:bold;color:#1a3a7e;margin-bottom:3pt}
+.p-cb{display:inline-block;font-size:7pt;font-weight:700;background:#1a3a7e;color:#fff;border-radius:2pt;padding:0 3pt;margin-right:2pt}
+.p-refs{margin-top:5pt;font-size:7pt;color:#555}
+.p-refs b{display:block;margin-bottom:1pt}
+.p-foot{margin-top:8pt;border-top:.5pt solid #ccc;padding-top:4pt;font-size:7pt;color:#777;line-height:1.5}
+.p-cprt{margin-top:3pt;font-size:6.5pt;color:#999;text-align:center}
 </style>
 </head>
 <body>
 
-<!-- ════ HEADER ════ -->
-<header class="app-header">
-  <h1>📊 Simulateur Fiscal 2025</h1>
-  <div class="sub">Déclaration 2026 · Conforme DGFiP · Frais réels, déductions, réductions, crédits</div>
+<header class="hdr">
+  <h1>📊 Simulateur Fiscal 2025 — Déclaration 2026</h1>
+  <div class="sub">Frais réels · IR estimé · Déductions · Réductions · Crédits · Conforme DGFiP · Moteur IR validé OpenFisca</div>
 </header>
 
-<!-- ════ NAVIGATION ════ -->
-<nav class="nav-wrap">
+<nav class="nav">
   <div class="nav-tabs">
-    <button class="nav-tab active"       onclick="go('infos')">📋 Situation</button>
-    <button class="nav-tab"              onclick="go('frais')">🚗 Frais réels</button>
-    <button class="nav-tab tab-blue"     onclick="go('ded')">📉 Déductions</button>
-    <button class="nav-tab tab-green"    onclick="go('red')">✂️ Réductions</button>
-    <button class="nav-tab tab-purple"   onclick="go('cred')">💶 Crédits</button>
-    <button class="nav-tab"              onclick="go('res')">📊 Résultats</button>
+    <button class="nt active"  onclick="go('sit')">📋 Situation</button>
+    <button class="nt"         onclick="go('fr')">🚗 Frais réels</button>
+    <button class="nt tb"      onclick="go('ded')">📉 Déductions</button>
+    <button class="nt tg"      onclick="go('red')">✂️ Réductions</button>
+    <button class="nt tp"      onclick="go('cred')">💶 Crédits</button>
+    <button class="nt"         onclick="go('ir')">🧮 Impôt estimé</button>
+    <button class="nt"         onclick="go('res')">📊 Résultats</button>
   </div>
 </nav>
 
-<!-- ════ MAIN ════ -->
 <main class="main">
 
-<!-- ══ ONGLET SITUATION ══ -->
-<div id="tab-infos" class="panel active">
-
-  <div class="section">
-    <div class="section-title">Calendrier de travail</div>
+<!-- ════ SITUATION ════ -->
+<div id="tab-sit" class="panel active">
+  <div class="sec">
+    <div class="sec-t">Calendrier de travail</div>
     <div class="row">
-      <div class="field">
-        <label>Jours travaillés 2025</label>
-        <input type="number" id="jt" value="179" inputmode="numeric" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Distance domicile-travail (km aller)</label>
-        <input type="number" id="dist" value="24" inputmode="numeric" oninput="calc()">
-      </div>
+      <div class="field"><label>Jours travaillés 2025</label><input type="number" id="jt" placeholder="Ex : 218" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Distance domicile-travail (km aller)</label><input type="number" id="dist" placeholder="Ex : 15" inputmode="numeric" oninput="calc()"></div>
     </div>
-    <div class="field">
-      <label>Dont jours en télétravail</label>
-      <input type="number" id="ttj" value="0" inputmode="numeric" oninput="calc()">
+    <div class="field"><label>Dont jours en télétravail</label><input type="number" id="ttj" placeholder="Ex : 40" inputmode="numeric" oninput="calc()"></div>
+    <div class="ttbox">
+      <div class="ttbox-l">Frais de télétravail déductibles (2,70 €/jour — BOFiP)</div>
+      <div class="ttbox-v" id="tt-v">—</div>
+      <div class="ttbox-n" id="tt-n">Renseignez vos jours de télétravail</div>
     </div>
-    <div class="tt-box">
-      <div class="tt-label">Frais de télétravail déductibles (2,70 €/jour — BOFiP)</div>
-      <div class="tt-value" id="tt-v">0,00 €</div>
-      <div class="tt-note" id="tt-n">0 jours × 2,70 €</div>
-    </div>
-    <div class="info-box">Plafond légal : 626,40 €/an. Les jours de télétravail sont automatiquement exclus du calcul des frais de repas (BOFiP §550).</div>
+    <div class="ib">Plafond légal : 626,40 €/an. Jours TT automatiquement exclus des frais de repas (BOFiP §550).</div>
   </div>
 
-  <div class="section">
-    <div class="section-title">
-      Véhicule
-      <span id="badge-cv" class="badge b-warn">à renseigner</span>
-    </div>
-    <div class="field">
-      <label>Type de véhicule</label>
+  <div class="sec">
+    <div class="sec-t">Véhicule <span id="badge-cv" class="badge bwarn">à renseigner</span></div>
+    <div class="field"><label>Type de véhicule</label>
       <select id="vtype" onchange="calc()">
+        <option value="">— choisir —</option>
         <option value="auto_th">Automobile thermique / hybride / hydrogène</option>
         <option value="auto_el">Automobile 100% électrique</option>
         <option value="moto">Moto / scooter (&gt; 50 cm³)</option>
         <option value="cyclo">Cyclomoteur / scooter ≤ 50 cm³</option>
       </select>
     </div>
-    <div id="cv-wrap" class="field">
-      <label>Puissance fiscale (CV) — carte grise case P.6</label>
+    <div id="cv-wrap" class="field" style="display:none"><label>Puissance fiscale (CV) — carte grise case P.6</label>
       <select id="cv" onchange="calc()">
         <option value="">— choisir —</option>
-        <option value="3">3 CV et moins</option>
-        <option value="4">4 CV</option>
-        <option value="5">5 CV</option>
-        <option value="6">6 CV</option>
-        <option value="7">7 CV et plus</option>
+        <option value="3">3 CV et moins</option><option value="4">4 CV</option>
+        <option value="5">5 CV</option><option value="6">6 CV</option><option value="7">7 CV et plus</option>
       </select>
     </div>
-    <div id="moto-wrap" class="field" style="display:none">
-      <label>Puissance fiscale moto</label>
+    <div id="moto-wrap" class="field" style="display:none"><label>Puissance fiscale moto</label>
       <select id="moto-cv" onchange="calc()">
         <option value="">— choisir —</option>
-        <option value="1">1 ou 2 CV</option>
-        <option value="3">3, 4 ou 5 CV</option>
-        <option value="6">Plus de 5 CV</option>
+        <option value="1">1 ou 2 CV</option><option value="3">3, 4 ou 5 CV</option><option value="6">Plus de 5 CV</option>
       </select>
     </div>
-    <div class="miss-box" id="miss-cv">
-      <div class="miss-title">Information manquante</div>
-      <div class="miss-item">Puissance fiscale du véhicule (carte grise, case P.6)</div>
-    </div>
-    <div class="info-box">Barème kilométrique DGFiP 2025 (dépliant GP 120, mars 2026). Les électriques ont un barème dédié. Plafonné à 7 CV pour les automobiles.</div>
+    <div class="ib">Barème DGFiP 2025 (dépliant GP 120, mars 2026). Électriques : barème dédié. Plafonné à 7 CV pour les automobiles.</div>
   </div>
 
-  <div class="section">
-    <div class="section-title">Repas</div>
+  <div class="sec">
+    <div class="sec-t">Repas</div>
     <div class="row">
-      <div class="field">
-        <label>Prise en charge employeur (%)</label>
-        <input type="number" id="pct_rep" value="50" min="0" max="100" inputmode="numeric" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Jours de déjeuner hors domicile</label>
-        <input type="number" id="j_rep" value="179" inputmode="numeric" oninput="calc()">
-      </div>
+      <div class="field"><label>Prise en charge employeur (%)</label><input type="number" id="pct_rep" placeholder="Ex : 50" min="0" max="100" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Jours déjeuner hors domicile</label><input type="number" id="j_rep" placeholder="Ex : 180" inputmode="numeric" oninput="calc()"></div>
     </div>
-    <div class="info-box warn">⚠ Les jours de télétravail sont déduits automatiquement des jours de repas (BOFiP : aucun frais de repas admis les jours de télétravail à domicile).</div>
-    <div class="info-box">Valeur forfaitaire repas au foyer : <strong>5,45 €</strong> (impots.gouv.fr, revenus 2025). Plafond : 21,10 €/repas.</div>
+    <div class="ib warn">⚠ Jours de télétravail déduits automatiquement (BOFiP : aucun frais de repas admis les jours de télétravail à domicile).</div>
+    <div class="ib">Valeur forfaitaire repas au foyer : <strong>5,45 €</strong> (impots.gouv.fr, revenus 2025). Plafond : 21,10 €/repas.</div>
   </div>
 
-  <div class="section">
-    <div class="section-title">Salaire &amp; foyer fiscal</div>
+  <div class="sec">
+    <div class="sec-t">Foyer fiscal &amp; salaires</div>
     <div class="row">
-      <div class="field">
-        <label>Salaire net imposable déclarant 1 (€/an) <span class="ct">1AJ</span></label>
-        <input type="number" id="sal1" value="35000" inputmode="numeric" oninput="calc()">
+      <div class="field"><label>Situation familiale</label>
+        <select id="situation" onchange="calc()">
+          <option value="celib">Célibataire / Divorcé / Séparé</option>
+          <option value="marie">Marié / Pacsé</option>
+          <option value="veuf">Veuf(ve)</option>
+        </select>
       </div>
-      <div class="field">
-        <label>Salaire net imposable déclarant 2 (€/an) <span class="ct">1BJ</span></label>
-        <input type="number" id="sal2" value="0" inputmode="numeric" oninput="calc()">
+      <div class="field"><label>Nombre d'enfants à charge</label>
+        <select id="nb_enf" onchange="calc()">
+          <option value="0">0</option><option value="1">1</option>
+          <option value="2">2</option><option value="3">3</option><option value="4">4 et plus</option>
+        </select>
       </div>
     </div>
-    <div class="field">
-      <label>Remboursements frais employeur à réintégrer (€/an)</label>
-      <input type="number" id="remb" value="0" inputmode="numeric" oninput="calc()">
+    <div class="row">
+      <div class="field"><label>Salaire net imposable déclarant 1 (€/an) <span class="ct">1AJ</span></label><input type="number" id="sal1" placeholder="Ex : 35 000" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Salaire net imposable déclarant 2 (€/an) <span class="ct">1BJ</span></label><input type="number" id="sal2" placeholder="0 si seul" inputmode="numeric" oninput="calc()"></div>
     </div>
-    <div class="info-box">Tous remboursements de frais (repas, transport, télétravail) doivent être réintégrés au salaire imposable si vous optez pour les frais réels (art. 83 CGI).</div>
+    <div class="field"><label>Remboursements frais employeur à réintégrer (€/an)</label><input type="number" id="remb" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+    <div class="ib">En cas d'option frais réels, tous remboursements employeur doivent être réintégrés au salaire imposable (art. 83 CGI).</div>
   </div>
-
-  <button class="exp-btn" style="margin-bottom:.75rem" onclick="go('res')">
-    📊 Voir mes résultats
-  </button>
+  <button class="btn btn-blue" style="margin-bottom:.75rem" onclick="go('res')">📊 Voir mes résultats →</button>
 </div>
 
-<!-- ══ ONGLET FRAIS RÉELS ══ -->
-<div id="tab-frais" class="panel">
-
-  <div class="section">
-    <div class="section-title">Intérêts de crédit automobile <span class="ct">1AK</span></div>
+<!-- ════ FRAIS RÉELS ════ -->
+<div id="tab-fr" class="panel">
+  <div class="sec">
+    <div class="sec-t">Intérêts de crédit automobile <span class="ct">1AK</span></div>
     <div class="row">
-      <div class="field">
-        <label>Intérêts annuels payés (€)</label>
-        <input type="number" id="inter" value="0" inputmode="decimal" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Usage professionnel (%)</label>
-        <input type="number" id="pct_pro" value="0" min="0" max="100" inputmode="numeric" oninput="calc()">
-      </div>
+      <div class="field"><label>Intérêts annuels payés (€) — tableau d'amortissement</label><input type="number" id="inter" placeholder="0" inputmode="decimal" oninput="calc()"></div>
+      <div class="field"><label>Usage professionnel (%)</label><input type="number" id="pct_pro" placeholder="0" min="0" max="100" inputmode="numeric" oninput="calc()"></div>
     </div>
-    <div class="info-box">Déductibles en supplément du barème kilométrique, au prorata de l'usage professionnel (source : notice DGFiP nid 4002). L'assurance emprunteur n'est pas déductible.</div>
+    <div class="ib">Déductibles en supplément du barème kilométrique, au prorata de l'usage pro (notice DGFiP nid 4002). L'assurance emprunteur (décès/invalidité) n'est pas déductible.</div>
   </div>
-
-  <div class="section">
-    <div class="section-title">Autres frais professionnels</div>
+  <div class="sec">
+    <div class="sec-t">Autres frais professionnels</div>
     <div class="row">
-      <div class="field">
-        <label>Cotisations syndicales (€/an)</label>
-        <input type="number" id="synd" value="0" inputmode="numeric" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Formations non remboursées (€/an)</label>
-        <input type="number" id="form" value="0" inputmode="numeric" oninput="calc()">
-      </div>
+      <div class="field"><label>Cotisations syndicales (€/an)</label><input type="number" id="synd" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Formations non remboursées (€/an)</label><input type="number" id="form_fr" placeholder="0" inputmode="numeric" oninput="calc()"></div>
     </div>
     <div class="row">
-      <div class="field">
-        <label>Documentation professionnelle (€/an)</label>
-        <input type="number" id="doc" value="0" inputmode="numeric" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Double résidence (€/an)</label>
-        <input type="number" id="dres" value="0" inputmode="numeric" oninput="calc()">
-      </div>
+      <div class="field"><label>Documentation professionnelle (€/an)</label><input type="number" id="doc_fr" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Double résidence (€/an)</label><input type="number" id="dres" placeholder="0" inputmode="numeric" oninput="calc()"></div>
     </div>
     <div class="row">
-      <div class="field">
-        <label>Vêtements professionnels (€/an)</label>
-        <input type="number" id="vet" value="0" inputmode="numeric" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Autres frais professionnels (€/an)</label>
-        <input type="number" id="autr" value="0" inputmode="numeric" oninput="calc()">
-      </div>
+      <div class="field"><label>Vêtements professionnels obligatoires (€/an)</label><input type="number" id="vet" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Autres frais professionnels (€/an)</label><input type="number" id="autr" placeholder="0" inputmode="numeric" oninput="calc()"></div>
     </div>
-    <div class="info-box">Cotisations syndicales : déductibles sans plafond en frais réels, mais le crédit d'impôt case 7AC est alors exclu. Double résidence : uniquement si elle ne relève pas de convenances personnelles (art. 83 CGI).</div>
+    <div class="ib">Cotisations syndicales : déductibles sans plafond en frais réels, mais le crédit d'impôt case 7AC est alors exclu. Double résidence : uniquement si non liée à des convenances personnelles (art. 83 CGI).</div>
   </div>
-
-  <div class="section">
-    <div class="section-title">Documents à rassembler</div>
-    <div class="miss-box" style="margin-top:0">
-      <div class="miss-title">Avant de déclarer</div>
-      <div class="miss-item">Puissance fiscale du véhicule (carte grise, case P.6)</div>
-      <div class="miss-item">Salaire net imposable 2025 (bulletin décembre ou avis d'imposition)</div>
-      <div class="miss-item">Cumul annuel des indemnités repas (bulletin de décembre)</div>
-      <div class="miss-item">Nombre réel de jours en télétravail (calendrier attesté)</div>
-      <div class="miss-item">Allocation télétravail versée par l'employeur (à réintégrer)</div>
-      <div class="miss-item">Pourcentage d'usage professionnel du véhicule (km pro / km total)</div>
-      <div class="miss-item">Tableau d'amortissement du crédit auto (relevé des intérêts)</div>
+  <div class="sec">
+    <div class="sec-t">Documents à rassembler avant de déclarer</div>
+    <div class="miss" style="margin-top:0">
+      <div class="miss-t">Pièces justificatives</div>
+      <div class="miss-i">Puissance fiscale du véhicule (carte grise, case P.6)</div>
+      <div class="miss-i">Salaire net imposable 2025 (bulletin décembre ou avis d'imposition)</div>
+      <div class="miss-i">Cumul annuel des indemnités repas (bulletin de décembre)</div>
+      <div class="miss-i">Nombre réel de jours en télétravail (calendrier attesté par l'employeur)</div>
+      <div class="miss-i">Allocation télétravail versée par l'employeur (à réintégrer au salaire)</div>
+      <div class="miss-i">Pourcentage d'usage professionnel du véhicule (km pro / km total)</div>
+      <div class="miss-i">Tableau d'amortissement du crédit auto (relevé annuel des intérêts)</div>
     </div>
   </div>
 </div>
 
-<!-- ══ ONGLET DÉDUCTIONS ══ -->
+<!-- ════ DÉDUCTIONS ════ -->
 <div id="tab-ded" class="panel">
-  <p class="section-note">Ces charges réduisent directement votre <strong>revenu imposable</strong> avant calcul de l'impôt.</p>
-
-  <div class="section">
-    <div class="section-title">Épargne retraite <span class="ct">6NS</span><span class="ct">6NT</span><span class="ct">6NU</span></div>
-    <div class="field">
-      <label>Versements PER individuel / PERP / Madelin (€/an)</label>
-      <input type="number" id="per" value="0" inputmode="numeric" oninput="calc()">
-    </div>
-    <div class="info-box">Déductibles dans la limite du plafond épargne retraite : 10% des revenus professionnels nets (max ~35 194 € pour 2025, ou 4 637 € si plus élevé). Levier de déduction le plus puissant disponible.</div>
+  <p class="sn">Ces charges réduisent directement votre <strong>revenu imposable</strong> avant calcul de l'impôt.</p>
+  <div class="sec">
+    <div class="sec-t">Épargne retraite <span class="ct">6NS</span><span class="ct">6NT</span><span class="ct">6NU</span></div>
+    <div class="field"><label>Versements PER individuel / PERP / Madelin (€/an)</label><input type="number" id="per" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+    <div class="ib">Déductibles dans la limite de 10% des revenus professionnels nets (max ~35 194 € pour 2025). Levier de déduction le plus puissant disponible.</div>
   </div>
-
-  <div class="section">
-    <div class="section-title">Pensions alimentaires</div>
+  <div class="sec">
+    <div class="sec-t">Pensions alimentaires</div>
     <div class="row">
-      <div class="field">
-        <label>Enfants majeurs non rattachés (€/an) <span class="ct">6EL</span></label>
-        <input type="number" id="p_enf" value="0" inputmode="numeric" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Pension ex-conjoint (€/an) <span class="ct">6GP</span></label>
-        <input type="number" id="p_exc" value="0" inputmode="numeric" oninput="calc()">
-      </div>
+      <div class="field"><label>Enfants majeurs non rattachés (€/an) <span class="ct">6EL</span></label><input type="number" id="p_enf" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Pension ex-conjoint (€/an) <span class="ct">6GP</span></label><input type="number" id="p_exc" placeholder="0" inputmode="numeric" oninput="calc()"></div>
     </div>
-    <div class="field">
-      <label>Pension ascendants dans le besoin (€/an) <span class="ct">6GU</span></label>
-      <input type="number" id="p_asc" value="0" inputmode="numeric" oninput="calc()">
-    </div>
-    <div class="info-box">Enfants majeurs : plafond 6 794 €/enfant (2025). Ex-conjoint : déductible sans plafond si fixé par jugement. Ascendants : déductible à hauteur des dépenses réelles prouvées.</div>
+    <div class="field"><label>Pension ascendants dans le besoin (€/an) <span class="ct">6GU</span></label><input type="number" id="p_asc" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+    <div class="ib">Enfants majeurs : plafond 6 794 €/enfant (2025). Ex-conjoint : sans plafond si fixé par jugement. Ascendants : à hauteur des dépenses réelles prouvées.</div>
   </div>
-
-  <div class="section">
-    <div class="section-title">Déficit foncier <span class="ct">4BC</span></div>
-    <div class="field">
-      <label>Déficit foncier imputable sur le revenu global (€)</label>
-      <input type="number" id="def_fonc" value="0" inputmode="numeric" oninput="calc()">
-    </div>
-    <div class="info-box">Imputable dans la limite de 10 700 €/an (21 400 € pour rénovation énergétique). Surplus reportable sur revenus fonciers des 10 années suivantes.</div>
+  <div class="sec">
+    <div class="sec-t">Déficit foncier <span class="ct">4BC</span></div>
+    <div class="field"><label>Déficit foncier imputable sur le revenu global (€)</label><input type="number" id="def_fonc" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+    <div class="ib">Biens locatifs non meublés. Limité à 10 700 €/an (21 400 € pour rénovation énergétique). Surplus reportable sur revenus fonciers des 10 années suivantes.</div>
   </div>
-
-  <div class="section">
-    <div class="section-title">CSG déductible <span class="ct">6DE</span></div>
-    <div class="field">
-      <label>CSG déductible (€) — normalement pré-remplie</label>
-      <input type="number" id="csg" value="0" inputmode="numeric" oninput="calc()">
-    </div>
-    <div class="info-box">CSG sur revenus du patrimoine (revenus fonciers, dividendes, plus-values) — partiellement déductible à 6,8%. Vérifiez la cohérence avec vos revenus 2025.</div>
+  <div class="sec">
+    <div class="sec-t">CSG déductible <span class="ct">6DE</span></div>
+    <div class="field"><label>CSG déductible (€) — normalement pré-remplie</label><input type="number" id="csg" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+    <div class="ib">CSG sur revenus du patrimoine (revenus fonciers, dividendes, plus-values) — partiellement déductible à 6,8%.</div>
   </div>
 </div>
 
-<!-- ══ ONGLET RÉDUCTIONS ══ -->
+<!-- ════ RÉDUCTIONS ════ -->
 <div id="tab-red" class="panel">
-  <p class="section-note">Ces réductions s'imputent sur l'impôt calculé. Elles ne sont <strong>pas remboursables</strong> si l'impôt est insuffisant.</p>
-
-  <div class="section">
-    <div class="section-title">Dons et cotisations</div>
+  <p class="sn">Ces réductions s'imputent sur l'impôt calculé. Elles ne sont <strong>pas remboursables</strong> si l'impôt est insuffisant.</p>
+  <div class="sec">
+    <div class="sec-t">Dons et cotisations</div>
     <div class="row">
-      <div class="field">
-        <label>Dons associations d'intérêt général (€) <span class="ct">7UF</span> <small>66%</small></label>
-        <input type="number" id="d_asso" value="0" inputmode="numeric" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Dons aide aux personnes (€) <span class="ct">7UD</span> <small>75%/66%</small></label>
-        <input type="number" id="d_aide" value="0" inputmode="numeric" oninput="calc()">
-      </div>
+      <div class="field"><label>Dons associations d'intérêt général (€) <span class="ct">7UF</span> <small>66%</small></label><input type="number" id="d_asso" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Dons aide aux personnes (€) <span class="ct">7UD</span> <small>75%/66%</small></label><input type="number" id="d_aide" placeholder="0" inputmode="numeric" oninput="calc()"></div>
     </div>
     <div class="row">
-      <div class="field">
-        <label>Dons partis politiques (€) <span class="ct">7UH</span> <small>66%</small></label>
-        <input type="number" id="d_pol" value="0" inputmode="numeric" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Cotisations syndicales (€) <span class="ct">7AC</span> <small>66%</small></label>
-        <input type="number" id="synd2" value="0" inputmode="numeric" oninput="calc()">
-      </div>
+      <div class="field"><label>Dons partis politiques (€) <span class="ct">7UH</span> <small>66%</small></label><input type="number" id="d_pol" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Cotisations syndicales (€) <span class="ct">7AC</span> <small>66%</small></label><input type="number" id="synd2" placeholder="0" inputmode="numeric" oninput="calc()"></div>
     </div>
-    <div class="info-box">Taux 75% sur les dons aux organismes aidant les personnes démunies (Resto du Cœur, Secours Populaire…) dans la limite de 1 000 €, puis 66% au-delà. Si cotisations syndicales déduites en frais réels : ne pas remplir 7AC.</div>
+    <div class="ib">Taux 75% sur dons aux organismes aidant les personnes démunies dans la limite de 1 000 €, puis 66% au-delà. Si cotisations syndicales déduites en frais réels : ne pas remplir 7AC.</div>
   </div>
-
-  <div class="section">
-    <div class="section-title">Frais de scolarité des enfants</div>
+  <div class="sec">
+    <div class="sec-t">Frais de scolarité des enfants</div>
     <div class="row3">
-      <div class="field">
-        <label>Collège <span class="ct">7EA</span> <small style="display:block;color:var(--text3)">61 €/enfant</small></label>
-        <input type="number" id="e_col" value="0" min="0" inputmode="numeric" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Lycée <span class="ct">7EC</span> <small style="display:block;color:var(--text3)">153 €/enfant</small></label>
-        <input type="number" id="e_lyc" value="0" min="0" inputmode="numeric" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Supérieur <span class="ct">7EF</span> <small style="display:block;color:var(--text3)">183 €/enfant</small></label>
-        <input type="number" id="e_sup" value="0" min="0" inputmode="numeric" oninput="calc()">
-      </div>
+      <div class="field"><label>Collège <span class="ct">7EA</span><small style="display:block;color:var(--text3)">61 €/enf.</small></label><input type="number" id="e_col" placeholder="0" min="0" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Lycée <span class="ct">7EC</span><small style="display:block;color:var(--text3)">153 €/enf.</small></label><input type="number" id="e_lyc" placeholder="0" min="0" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Supérieur <span class="ct">7EF</span><small style="display:block;color:var(--text3)">183 €/enf.</small></label><input type="number" id="e_sup" placeholder="0" min="0" inputmode="numeric" oninput="calc()"></div>
     </div>
-    <div class="info-box">Réductions forfaitaires par enfant à charge fiscalement rattaché au foyer au 31 décembre 2025.</div>
+    <div class="ib">Réductions forfaitaires par enfant à charge fiscalement rattaché au foyer au 31 décembre 2025.</div>
   </div>
-
-  <div class="section">
-    <div class="section-title">Investissements <span class="badge b-blue">2042 RICI</span></div>
+  <div class="sec">
+    <div class="sec-t">Investissements <span class="badge bblue">2042 RICI</span></div>
     <div class="row">
-      <div class="field">
-        <label>Réduction Pinel / Denormandie (€/an) <span class="ct">7QR</span></label>
-        <input type="number" id="pinel" value="0" inputmode="numeric" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Souscription capital PME (€) <span class="ct">7CF</span> <small>18%</small></label>
-        <input type="number" id="pme" value="0" inputmode="numeric" oninput="calc()">
-      </div>
+      <div class="field"><label>Réduction Pinel / Denormandie (€/an) <span class="ct">7QR</span></label><input type="number" id="pinel" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Souscription capital PME (€) <span class="ct">7CF</span> <small>18%</small></label><input type="number" id="pme" placeholder="0" inputmode="numeric" oninput="calc()"></div>
     </div>
-    <div class="info-box">Pinel fermé aux nouveaux investissements depuis le 31/12/2024 — seuls les investissements antérieurs continuent à générer de la réduction. PME : taux de 18% des versements.</div>
+    <div class="ib">Pinel fermé aux nouveaux investissements depuis le 31/12/2024. Seuls les investissements antérieurs continuent à générer de la réduction.</div>
   </div>
 </div>
 
-<!-- ══ ONGLET CRÉDITS ══ -->
+<!-- ════ CRÉDITS ════ -->
 <div id="tab-cred" class="panel">
-  <p class="section-note">Les crédits d'impôt sont <strong>remboursables</strong> : si leur montant dépasse votre impôt, le surplus vous est restitué.</p>
-
-  <div class="section">
-    <div class="section-title">Emploi à domicile <span class="ct">7DB</span></div>
+  <p class="sn">Les crédits d'impôt sont <strong>remboursables</strong> : si leur montant dépasse votre impôt, le surplus vous est restitué par virement.</p>
+  <div class="sec">
+    <div class="sec-t">Emploi à domicile <span class="ct">7DB</span></div>
     <div class="row">
-      <div class="field">
-        <label>Dépenses brutes d'emploi à domicile (€/an)</label>
-        <input type="number" id="empl" value="0" inputmode="numeric" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Dont APA / PCH reçue à déduire (€/an) <span class="ct">7DG</span></label>
-        <input type="number" id="apa" value="0" inputmode="numeric" oninput="calc()">
-      </div>
+      <div class="field"><label>Dépenses brutes d'emploi à domicile (€/an)</label><input type="number" id="empl" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Dont APA / PCH reçue à déduire (€/an) <span class="ct">7DG</span></label><input type="number" id="apa" placeholder="0" inputmode="numeric" oninput="calc()"></div>
     </div>
-    <div class="info-box">Crédit de 50% sur les dépenses nettes (ménage, jardinage, aide à la personne, garde d'enfants à domicile…). Plafond : 12 000 € de dépenses (6 000 € de crédit max), majoré selon situation.</div>
+    <div class="ib">Crédit de 50% sur dépenses nettes. Plafond : 12 000 € de dépenses (6 000 € de crédit max), majoré selon composition du foyer.</div>
   </div>
-
-  <div class="section">
-    <div class="section-title">Garde d'enfants hors domicile <span class="ct">7GA</span></div>
-    <div class="field">
-      <label>Frais de garde d'enfants de moins de 6 ans (crèche, halte-garderie…) (€/an)</label>
-      <input type="number" id="gard" value="0" inputmode="numeric" oninput="calc()">
-    </div>
-    <div class="info-box">Crédit de 50% — plafond : 3 500 € par enfant (1 750 € de crédit max par enfant). Enfants de moins de 6 ans au 1er janvier 2025.</div>
+  <div class="sec">
+    <div class="sec-t">Garde d'enfants hors domicile <span class="ct">7GA</span></div>
+    <div class="field"><label>Frais de garde d'enfants de moins de 6 ans (crèche, halte-garderie…) (€/an)</label><input type="number" id="gard" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+    <div class="ib">Crédit de 50% — plafond : 3 500 € par enfant (1 750 € de crédit max). Enfants de moins de 6 ans au 1er janvier 2025.</div>
   </div>
-
-  <div class="section">
-    <div class="section-title">Rénovation &amp; logement <span class="badge b-blue">2042 RICI</span></div>
+  <div class="sec">
+    <div class="sec-t">Rénovation &amp; logement <span class="badge bblue">2042 RICI</span></div>
     <div class="row">
-      <div class="field">
-        <label>Travaux rénovation énergétique (€) <span class="ct">7WF</span></label>
-        <input type="number" id="renov" value="0" inputmode="numeric" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Adaptation logement handicap / dépendance (€) <span class="ct">7WJ</span></label>
-        <input type="number" id="hand" value="0" inputmode="numeric" oninput="calc()">
-      </div>
+      <div class="field"><label>Travaux rénovation énergétique (€) <span class="ct">7WF</span></label><input type="number" id="renov" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Adaptation logement handicap (€) <span class="ct">7WJ</span></label><input type="number" id="hand" placeholder="0" inputmode="numeric" oninput="calc()"></div>
     </div>
-    <div class="info-box">La borne de recharge électrique (IRVE) n'est plus éligible après le 31/12/2025.</div>
+    <div class="ib">La borne de recharge électrique (IRVE) n'est plus éligible après le 31/12/2025.</div>
   </div>
-
-  <div class="section">
-    <div class="section-title">EHPAD / Dépendance <span class="ct">7CD</span></div>
-    <div class="field">
-      <label>Dépenses d'hébergement en EHPAD ou établissement spécialisé (€/an)</label>
-      <input type="number" id="ehpad" value="0" inputmode="numeric" oninput="calc()">
-    </div>
-    <div class="info-box">Crédit de 25% — plafond : 10 000 € par personne hébergée (2 500 € de crédit max).</div>
+  <div class="sec">
+    <div class="sec-t">EHPAD / Dépendance <span class="ct">7CD</span></div>
+    <div class="field"><label>Dépenses d'hébergement en EHPAD ou établissement spécialisé (€/an)</label><input type="number" id="ehpad" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+    <div class="ib">Crédit de 25% — plafond : 10 000 € par personne hébergée (2 500 € de crédit max).</div>
   </div>
-
-  <div class="section">
-    <div class="section-title">Autres crédits</div>
+  <div class="sec">
+    <div class="sec-t">Autres crédits</div>
     <div class="row">
-      <div class="field">
-        <label>Formation dirigeants d'entreprise (€) <span class="ct">7FF</span></label>
-        <input type="number" id="form_dir" value="0" inputmode="numeric" oninput="calc()">
-      </div>
-      <div class="field">
-        <label>Protection patrimoine naturel (€) <span class="ct">7KA</span> <small>25%</small></label>
-        <input type="number" id="patrim" value="0" inputmode="numeric" oninput="calc()">
-      </div>
+      <div class="field"><label>Formation dirigeants d'entreprise (€) <span class="ct">7FF</span></label><input type="number" id="form_dir" placeholder="0" inputmode="numeric" oninput="calc()"></div>
+      <div class="field"><label>Protection patrimoine naturel (€) <span class="ct">7KA</span> <small>25%</small></label><input type="number" id="patrim" placeholder="0" inputmode="numeric" oninput="calc()"></div>
     </div>
   </div>
 </div>
 
-<!-- ══ ONGLET RÉSULTATS ══ -->
+<!-- ════ IMPÔT ESTIMÉ ════ -->
+<div id="tab-ir" class="panel">
+  <div class="sec">
+    <div class="sec-t">🧮 Moteur IR — Paramètres officiels 2025</div>
+    <div class="ib ok" style="margin-bottom:.75rem">Barème et paramètres extraits et <strong>validés par OpenFisca-France v175</strong> — résultats identiques à l'administration fiscale pour les cas salariés standards.</div>
+    <div class="chart-wrap">
+      <div class="bar-row"><div class="bar-label" style="font-size:.66rem">0 → 11 600 €</div><div class="bar-track"><div class="bar-fill" style="width:0%;background:#86efac"></div></div><div class="bar-val">0 %</div></div>
+      <div class="bar-row"><div class="bar-label" style="font-size:.66rem">11 601 → 29 579 €</div><div class="bar-track"><div class="bar-fill" style="width:24%;background:#34d399"></div></div><div class="bar-val">11 %</div></div>
+      <div class="bar-row"><div class="bar-label" style="font-size:.66rem">29 580 → 84 577 €</div><div class="bar-track"><div class="bar-fill" style="width:67%;background:#f59e0b"></div></div><div class="bar-val">30 %</div></div>
+      <div class="bar-row"><div class="bar-label" style="font-size:.66rem">84 578 → 181 917 €</div><div class="bar-track"><div class="bar-fill" style="width:91%;background:#f97316"></div></div><div class="bar-val">41 %</div></div>
+      <div class="bar-row"><div class="bar-label" style="font-size:.66rem">Au-delà</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#ef4444"></div></div><div class="bar-val">45 %</div></div>
+    </div>
+    <div class="ib" style="margin-top:.6rem;font-size:.68rem">Abattement 10% : min 504 €, max 14 426 € · Décote célibataire : seuil 897 €, taux 45,25% · Décote couple : seuil 1 483 € · Plafond avantage QF : 1 807 €/demi-part</div>
+  </div>
+  <div class="sec">
+    <div class="sec-t">Résultats IR estimés</div>
+    <div id="ir-area"><div class="ib">Renseignez votre salaire dans l'onglet Situation pour voir l'estimation.</div></div>
+  </div>
+  <div class="sec">
+    <div class="sec-t">Impact des frais réels sur l'IR</div>
+    <div id="ir-impact-area"><div class="ib">L'impact sera calculé automatiquement dès que vous aurez saisi vos données.</div></div>
+  </div>
+</div>
+
+<!-- ════ RÉSULTATS ════ -->
 <div id="tab-res" class="panel">
-  <div class="export-section">
-    <button class="exp-btn" onclick="exportPDF()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-      Exporter / Imprimer en PDF
+  <div class="btn-row">
+    <button class="btn btn-blue" onclick="exportPDF()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+      Imprimer / PDF
     </button>
+    <button class="btn btn-outline" onclick="go('sit')">← Modifier</button>
   </div>
-  <div id="res-area"></div>
+  <div id="res-area"><div class="ib">Renseignez vos données dans les onglets pour afficher les résultats.</div></div>
 </div>
 
-</main><!-- /.main -->
+</main>
 
-<!-- ════ FOOTER COPYRIGHT ════ -->
-<footer class="app-footer">
+<footer class="footer">
   <strong>© Marc Chevallay — Tous droits réservés</strong><br>
-  Simulateur fiscal 2025 · Déclaration 2026<br>
-  Conforme barème kilométrique DGFiP GP 120, mars 2026<br>
-  <span style="font-size:.65rem">Document à titre informatif. Aucune valeur juridique. Vérifiez les montants auprès des services fiscaux.</span>
+  Simulateur Fiscal 2025 · Déclaration 2026<br>
+  Conforme barème DGFiP GP 120, mars 2026 · Moteur IR validé OpenFisca-France v175<br>
+  <span style="font-size:.62rem">Document à titre informatif — Aucune valeur juridique — Vérifiez auprès des services fiscaux avant tout dépôt</span>
 </footer>
 
-<!-- ════ ZONE IMPRESSION ════ -->
 <div id="pz"></div>
 
 <script>
-/* ════════════════════════════════════════════════════
-   BARÈMES OFFICIELS DGFiP 2025 — Dépliant GP 120, mars 2026
-   ════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════
+   PARAMÈTRES OFFICIELS — Extraits et validés OpenFisca-France v175
+   Source : DGFiP dépliant GP 120 (mars 2026)
+   ══════════════════════════════════════════════════════ */
+const IR_S=[0,11600,29579,84577,181917];
+const IR_T=[0,.11,.30,.41,.45];
+const ABAT=.10, ABAT_MIN=504, ABAT_MAX=14426;
+const DEC_T=.4525, DEC_C=897, DEC_M=1483;
+const PLAF_DP=1807;
 
-/* Automobiles thermiques / hybrides / hydrogène — paliers 5 000 / 20 000 km */
-const BT = {
-  3:{a:.529,b:.316,c:1065,d:.370},
-  4:{a:.606,b:.340,c:1330,d:.407},
-  5:{a:.636,b:.357,c:1395,d:.427},
-  6:{a:.665,b:.374,c:1457,d:.447},
-  7:{a:.697,b:.394,c:1515,d:.470}
-};
-/* Automobiles 100% électriques — barème dédié, paliers 5 000 / 20 000 km */
-const BE = {
-  3:{a:.635,b:.379,c:1278,d:.444},
-  4:{a:.727,b:.408,c:1596,d:.488},
-  5:{a:.763,b:.428,c:1674,d:.512},
-  6:{a:.798,b:.449,c:1748,d:.536},
-  7:{a:.836,b:.473,c:1818,d:.564}
-};
-/* Motos / scooters > 50 cm³ — paliers 3 000 / 6 000 km */
-const BM = {
-  1:{a:.395,b:.099,c:891, d:.248},
-  3:{a:.468,b:.082,c:1158,d:.275},
-  6:{a:.606,b:.079,c:1583,d:.343}
-};
-/* Cyclomoteurs ≤ 50 cm³ — paliers 3 000 / 6 000 km */
-const BC = {a:.315,b:.079,c:711,d:.198};
+// Barèmes kilométriques — automobiles thermiques/hybrides
+const BT={3:{s1:5000,s2:20000,a:.529,b:.316,c:1065,d:.370},4:{s1:5000,s2:20000,a:.606,b:.340,c:1330,d:.407},5:{s1:5000,s2:20000,a:.636,b:.357,c:1395,d:.427},6:{s1:5000,s2:20000,a:.665,b:.374,c:1457,d:.447},7:{s1:5000,s2:20000,a:.697,b:.394,c:1515,d:.470}};
+// Automobiles 100% électriques — barème dédié DGFiP
+const BE={3:{s1:5000,s2:20000,a:.635,b:.379,c:1278,d:.444},4:{s1:5000,s2:20000,a:.727,b:.408,c:1596,d:.488},5:{s1:5000,s2:20000,a:.763,b:.428,c:1674,d:.512},6:{s1:5000,s2:20000,a:.798,b:.449,c:1748,d:.536},7:{s1:5000,s2:20000,a:.836,b:.473,c:1818,d:.564}};
+// Motos > 50 cm³
+const BM={1:{s1:3000,s2:6000,a:.395,b:.099,c:891,d:.248},3:{s1:3000,s2:6000,a:.468,b:.082,c:1158,d:.275},6:{s1:3000,s2:6000,a:.606,b:.079,c:1583,d:.343}};
+// Cyclomoteurs ≤ 50 cm³
+const BC={s1:3000,s2:6000,a:.315,b:.079,c:711,d:.198};
 
-/* ── Helpers ── */
-function v(id){ const e=document.getElementById(id); return e ? parseFloat(e.value)||0 : 0; }
-function vs(id){ const e=document.getElementById(id); return e ? e.value : ''; }
-function fmt(n){ return Math.round(n).toLocaleString('fr-FR'); }
-function fmt2(n){ return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function v(id){const e=document.getElementById(id);return e?parseFloat(e.value)||0:0;}
+function vs(id){const e=document.getElementById(id);return e?e.value:'';}
+function fmt(n){return Math.round(n).toLocaleString('fr-FR');}
+function fmt2(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2});}
 
-function applyBareme(tab,km,s1,s2){
-  if(km<=s1) return km*tab.a;
-  if(km<=s2) return km*tab.b+tab.c;
-  return km*tab.d;
-}
-
+function applyB(t,km){if(km<=0)return 0;if(km<=t.s1)return km*t.a;if(km<=t.s2)return km*t.b+t.c;return km*t.d;}
 function calcKm(km){
-  const vt=vs('vtype');
-  if(vt==='auto_th'||vt==='auto_el'){
-    const cv=parseInt(vs('cv'))||0;
-    if(!cv) return null;
-    const tab=vt==='auto_el'?BE[cv]:BT[cv];
-    return Math.round(applyBareme(tab,km,5000,20000));
-  }
-  if(vt==='moto'){
-    const mc=parseInt(vs('moto-cv'))||0;
-    if(!mc) return null;
-    return Math.round(applyBareme(BM[mc],km,3000,6000));
-  }
-  if(vt==='cyclo'){
-    return Math.round(applyBareme(BC,km,3000,6000));
-  }
+  const vt=vs('vtype');if(!vt)return null;
+  if(vt==='auto_th'||vt==='auto_el'){const cv=parseInt(vs('cv'))||0;if(!cv)return null;return Math.round(applyB(vt==='auto_el'?BE[cv]:BT[cv],km));}
+  if(vt==='moto'){const mc=parseInt(vs('moto-cv'))||0;if(!mc)return null;return Math.round(applyB(BM[mc],km));}
+  if(vt==='cyclo')return Math.round(applyB(BC,km));
   return null;
 }
 
-let S = {};
+/* ── Moteur IR validé OpenFisca-France v175 ── */
+function calcParts(marie,nb){let p=marie?2:1;p+=nb*.5;if(nb>=3)p+=.5;return p;}
+function irBrut(rni,parts){let qi=rni/parts,ir=0;for(let i=IR_S.length-1;i>=0;i--){if(qi>IR_S[i]){ir+=(qi-IR_S[i])*IR_T[i];qi=IR_S[i];}}return Math.round(ir*parts);}
+function decote(ir,marie){const s=marie?DEC_M:DEC_C;if(ir<s){const d=Math.round(s-DEC_T*ir);return Math.max(0,Math.min(ir,d));}return 0;}
+function plafQF(ir_base,ir_full,demi){if(demi<=0)return ir_full;const av=ir_base-ir_full,pl=demi*PLAF_DP;return av>pl?Math.max(ir_full,ir_base-pl):ir_full;}
+
+function simulIR(sal,marie,nb_enf,ded,red,cred){
+  const abat_v=Math.min(Math.max(sal*ABAT,ABAT_MIN),ABAT_MAX);
+  const rni=Math.max(0,sal-abat_v-ded);
+  const parts=calcParts(marie,nb_enf);
+  const pb=marie?2:1, ds=parts-pb;
+  const irf=irBrut(rni,parts), irb=irBrut(rni,pb);
+  const irqf=plafQF(irb,irf,ds);
+  const dec=decote(irqf,marie);
+  const ir_net=Math.max(0,irqf-dec);
+  const ir_final=Math.max(0,ir_net-red-cred);
+  const tm=rni>0?IR_T[IR_S.filter(s=>s<rni/parts).length]||IR_T[IR_T.length-1]:0;
+  return{abat_v,rni,parts,ir_brut:irqf,dec,ir_net,ir_final,teff:sal>0?ir_final/sal:0,tm};
+}
+
+let S={};
 
 function calc(){
-  /* ── Situation ── */
-  const jt   = v('jt');
-  const dist  = v('dist');
-  const ttj   = Math.min(v('ttj'), jt);
-  const pct_rep = v('pct_rep')/100;
-  const j_rep   = Math.max(0, Math.min(v('j_rep'), jt) - ttj);
-  const sal1  = v('sal1');
-  const sal2  = v('sal2');
-  const remb  = v('remb');
+  const jt=v('jt'),dist=v('dist'),ttj=Math.min(v('ttj'),jt||0);
+  const pct_rep=v('pct_rep')/100;
+  const j_rep=Math.max(0,Math.min(v('j_rep'),jt||0)-ttj);
+  const sit=vs('situation'), marie=sit==='marie'||sit==='veuf';
+  const nb_enf=parseInt(vs('nb_enf'))||0;
+  const sal1=v('sal1'),sal2=v('sal2'),remb=v('remb');
+  const sal_total=sal1+sal2+remb;
 
-  /* ── Télétravail ── */
-  const tt_brut = ttj * 2.7;
-  const tt_m    = Math.min(tt_brut, 626.40);
-  document.getElementById('tt-v').textContent = fmt2(tt_m) + ' €';
-  document.getElementById('tt-n').textContent = ttj + ' jours × 2,70 €' + (tt_brut>626.40?' (plafonné à 626,40 €)':'');
+  // TT
+  const tt_brut=ttj*2.7, tt_m=Math.min(tt_brut,626.40);
+  document.getElementById('tt-v').textContent=(jt||ttj)?fmt2(tt_m)+' €':'—';
+  document.getElementById('tt-n').textContent=ttj?ttj+' jours × 2,70 €'+(tt_brut>626.40?' (plafonné à 626,40 €)':''):'Renseignez vos jours de télétravail';
 
-  /* ── Véhicule UI ── */
-  const vt = vs('vtype');
-  const isAuto  = vt==='auto_th' || vt==='auto_el';
-  const isMoto  = vt==='moto';
-  const isCyclo = vt==='cyclo';
-  document.getElementById('cv-wrap').style.display   = isAuto ? 'block' : 'none';
-  document.getElementById('moto-wrap').style.display = isMoto ? 'block' : 'none';
-  const hasCV = isAuto ? !!parseInt(vs('cv')) : isMoto ? !!parseInt(vs('moto-cv')) : isCyclo;
-  const bcv = document.getElementById('badge-cv');
-  bcv.className = 'badge ' + (hasCV ? 'b-ok' : 'b-warn');
-  bcv.textContent = hasCV ? (isAuto ? vs('cv')+' CV' : isMoto ? 'Moto' : 'Cyclo') : 'à renseigner';
-  document.getElementById('miss-cv').style.display = hasCV ? 'none' : 'block';
+  // Véhicule UI
+  const vt=vs('vtype'),isA=vt==='auto_th'||vt==='auto_el',isM=vt==='moto',isC=vt==='cyclo';
+  document.getElementById('cv-wrap').style.display=isA?'block':'none';
+  document.getElementById('moto-wrap').style.display=isM?'block':'none';
+  const hasCV=isA?!!parseInt(vs('cv')):isM?!!parseInt(vs('moto-cv')):isC?true:false;
+  const bcv=document.getElementById('badge-cv');
+  bcv.className='badge '+(hasCV?'bok':'bwarn');
+  bcv.textContent=hasCV?(isA?vs('cv')+' CV':isM?'Moto':'Cyclo'):'à renseigner';
 
-  /* ── Calculs frais réels ── */
-  const j_dep   = jt - ttj;
-  const km_pro  = j_dep * dist * 2;
-  const frais_km = calcKm(km_pro);
-  const inter    = v('inter');
-  const pct_pro  = v('pct_pro')/100;
-  const inter_pro = Math.round(inter * pct_pro);
-  const synd  = v('synd');
-  const form  = v('form');
-  const doc   = v('doc');
-  const dres  = v('dres');
-  const vet   = v('vet');
-  const autr  = v('autr');
-  const repas_net  = Math.round(j_rep * 5.45 * (1 - pct_rep));
-  const divers_fr  = synd + form + doc + dres + vet + autr + inter_pro;
-  const total_fr   = (frais_km||0) + repas_net + tt_m + divers_fr;
-  const sal_ri     = sal1 + remb;
-  const forfait    = Math.round(Math.min(sal_ri * .10, 14426));
-  const gain_fr    = total_fr - forfait;
+  // Frais réels
+  const j_dep=jt-ttj, km_pro=j_dep*dist*2;
+  const frais_km=calcKm(km_pro);
+  const inter=v('inter'),pct_pro=v('pct_pro')/100,inter_pro=Math.round(inter*pct_pro);
+  const synd=v('synd'),form_fr=v('form_fr'),doc_fr=v('doc_fr'),dres=v('dres'),vet=v('vet'),autr=v('autr');
+  const repas_net=Math.round(j_rep*5.45*(1-pct_rep));
+  const divers_fr=synd+form_fr+doc_fr+dres+vet+autr+inter_pro;
+  const total_fr=(frais_km||0)+repas_net+tt_m+divers_fr;
+  const forfait=Math.round(Math.min(Math.max(sal_total*ABAT,ABAT_MIN),ABAT_MAX));
+  const gain_fr=total_fr-forfait;
 
-  /* ── Déductions ── */
-  const per      = v('per');
-  const p_enf    = v('p_enf');
-  const p_exc    = v('p_exc');
-  const p_asc    = v('p_asc');
-  const def_fonc = v('def_fonc');
-  const csg      = v('csg');
-  const total_ded = per + p_enf + p_exc + p_asc + def_fonc + csg;
+  // Déductions
+  const per=v('per'),p_enf=v('p_enf'),p_exc=v('p_exc'),p_asc=v('p_asc'),def_fonc=v('def_fonc'),csg=v('csg');
+  const total_ded=per+p_enf+p_exc+p_asc+def_fonc+csg;
 
-  /* ── Réductions ── */
-  const d_asso = v('d_asso');
-  const d_aide = v('d_aide');
-  const d_pol  = v('d_pol');
-  const synd2  = v('synd2');
-  const e_col  = v('e_col');
-  const e_lyc  = v('e_lyc');
-  const e_sup  = v('e_sup');
-  const pinel  = v('pinel');
-  const pme    = v('pme');
-  const r_aide = Math.round(Math.min(d_aide,1000)*.75 + Math.max(d_aide-1000,0)*.66);
-  const r_asso = Math.round(d_asso * .66);
-  const r_pol  = Math.round(d_pol  * .66);
-  const r_synd = Math.round(synd2  * .66);
-  const r_scol = e_col*61 + e_lyc*153 + e_sup*183;
-  const r_pme  = Math.round(pme * .18);
-  const total_red = r_aide + r_asso + r_pol + r_synd + r_scol + pinel + r_pme;
+  // Réductions
+  const d_asso=v('d_asso'),d_aide=v('d_aide'),d_pol=v('d_pol'),synd2=v('synd2');
+  const e_col=v('e_col'),e_lyc=v('e_lyc'),e_sup=v('e_sup'),pinel=v('pinel'),pme=v('pme');
+  const r_aide=Math.round(Math.min(d_aide,1000)*.75+Math.max(d_aide-1000,0)*.66);
+  const r_asso=Math.round(d_asso*.66),r_pol=Math.round(d_pol*.66),r_synd=Math.round(synd2*.66);
+  const r_scol=e_col*61+e_lyc*153+e_sup*183,r_pme=Math.round(pme*.18);
+  const total_red=r_aide+r_asso+r_pol+r_synd+r_scol+pinel+r_pme;
 
-  /* ── Crédits ── */
-  const empl     = v('empl');
-  const apa      = v('apa');
-  const gard     = v('gard');
-  const renov    = v('renov');
-  const hand     = v('hand');
-  const ehpad    = v('ehpad');
-  const form_dir = v('form_dir');
-  const patrim   = v('patrim');
-  const cr_empl   = Math.round(Math.min(empl - apa, 12000) * .50);
-  const cr_gard   = Math.round(Math.min(gard, 3500) * .50);
-  const cr_ehpad  = Math.round(Math.min(ehpad, 10000) * .25);
-  const cr_patrim = Math.round(patrim * .25);
-  const total_cred = cr_empl + cr_gard + renov + hand + cr_ehpad + form_dir + cr_patrim;
+  // Crédits
+  const empl=v('empl'),apa=v('apa'),gard=v('gard'),renov=v('renov'),hand=v('hand'),ehpad=v('ehpad'),form_dir=v('form_dir'),patrim=v('patrim');
+  const cr_empl=Math.round(Math.min(empl-apa,12000)*.50);
+  const cr_gard=Math.round(Math.min(gard,3500)*.50);
+  const cr_ehpad=Math.round(Math.min(ehpad,10000)*.25);
+  const cr_patrim=Math.round(patrim*.25);
+  const total_cred=cr_empl+cr_gard+renov+hand+cr_ehpad+form_dir+cr_patrim;
 
-  /* Sauvegarde état global */
-  S = {jt,dist,ttj,pct_rep,j_rep,sal1,sal2,remb,vt,
+  // IR
+  const irf=simulIR(sal_total,marie,nb_enf,total_ded,total_red,total_cred);
+  const ded_fr=gain_fr>0?total_ded+(gain_fr):total_ded;
+  const irr=gain_fr>0?simulIR(sal_total,marie,nb_enf,ded_fr,total_red,total_cred):irf;
+  const gain_ir=irf.ir_final-irr.ir_final;
+
+  S={jt,dist,ttj,pct_rep,j_rep,sit,marie,nb_enf,sal1,sal2,remb,sal_total,
     tt_m,tt_brut,j_dep,km_pro,frais_km,inter,pct_pro,
-    synd,form,doc,dres,vet,autr,inter_pro,repas_net,divers_fr,
-    total_fr,sal_ri,forfait,gain_fr,
-    per,p_enf,p_exc,p_asc,def_fonc,csg,total_ded,
+    synd,form_fr,doc_fr,dres,vet,autr,inter_pro,repas_net,divers_fr,
+    total_fr,forfait,gain_fr,total_ded,per,p_enf,p_exc,p_asc,def_fonc,csg,
     d_asso,d_aide,d_pol,synd2,e_col,e_lyc,e_sup,pinel,pme,
     r_aide,r_asso,r_pol,r_synd,r_scol,r_pme,total_red,
     empl,apa,gard,renov,hand,ehpad,form_dir,patrim,
-    cr_empl,cr_gard,cr_ehpad,cr_patrim,total_cred};
+    cr_empl,cr_gard,cr_ehpad,cr_patrim,total_cred,
+    irf,irr,gain_ir,vt,isA,isM,isC,hasCV};
 
-  /* ── Affichage résultats ── */
-  const cvLbl = isAuto ? (vs('cv')+' CV') : isMoto ? 'Moto' : isCyclo ? 'Cyclo' : '—';
-  const kmD   = frais_km !== null ? fmt(frais_km)+' €' : '— (véhicule non renseigné)';
-  const gColor = gain_fr > 0 ? '#085041' : '#993C1D';
-
-  function dr(label,val,extra=''){
-    return `<div class="detail-row"><span class="dr-label">${label}${extra}</span><span class="dr-val">${val}</span></div>`;
-  }
-
-  document.getElementById('res-area').innerHTML = `
-
-<div class="highlight hl-grn">
-  <div class="hl-label">🚗 Frais réels — Total estimé <span class="ct">1AK</span></div>
-  <div class="hl-value">${fmt(total_fr)} €</div>
-</div>
-${!hasCV?'<div class="info-box warn" style="margin-bottom:.75rem">⚠ Véhicule non renseigné — frais kilométriques non calculés. Rendez-vous dans l\'onglet Situation.</div>':''}
-<div class="card">
-  ${dr('Frais kilométriques (barème '+cvLbl+', '+fmt(km_pro)+' km)', kmD)}
-  ${dr('Frais de repas ('+j_rep+' j × 5,45 € × '+Math.round((1-pct_rep)*100)+'%)', fmt(repas_net)+' €')}
-  ${dr('Frais de télétravail ('+ttj+' j × 2,70 €'+(tt_brut>626.40?' plafonné':'')+')', fmt2(tt_m)+' €')}
-  ${dr('Intérêts crédit auto proratisés ('+Math.round(pct_pro*100)+'%)', fmt(inter_pro)+' €')}
-  ${dr('Autres frais professionnels', fmt(synd+form+doc+dres+vet+autr)+' €')}
-  <div class="detail-row" style="font-weight:600;color:var(--text)">
-    <span class="dr-label">vs déduction forfaitaire 10% (${fmt(forfait)} €)</span>
-    <span class="dr-val" style="color:${gColor}">${gain_fr>0?'✓ +':'✗ '}${fmt(gain_fr)} €</span>
-  </div>
-</div>
-
-<div class="highlight hl-blu">
-  <div class="hl-label">📉 Déductions du revenu imposable</div>
-  <div class="hl-value">${fmt(total_ded)} €</div>
-</div>
-<div class="card">
-  ${per      ? dr('PER / PERP / Madelin <span class="ct">6NS</span>', fmt(per)+' €') : ''}
-  ${p_enf    ? dr('Pension enfants majeurs <span class="ct">6EL</span>', fmt(p_enf)+' €') : ''}
-  ${p_exc    ? dr('Pension ex-conjoint <span class="ct">6GP</span>', fmt(p_exc)+' €') : ''}
-  ${p_asc    ? dr('Pension ascendants <span class="ct">6GU</span>', fmt(p_asc)+' €') : ''}
-  ${def_fonc ? dr('Déficit foncier <span class="ct">4BC</span>', fmt(def_fonc)+' €') : ''}
-  ${csg      ? dr('CSG déductible <span class="ct">6DE</span>', fmt(csg)+' €') : ''}
-  ${!total_ded ? '<div class="detail-row"><span class="dr-label" style="color:var(--text3);font-style:italic">Aucune déduction saisie</span><span class="dr-val">0 €</span></div>' : ''}
-</div>
-
-<div class="highlight" style="background:var(--pur-lt);border:1.5px solid var(--pur-bd)">
-  <div class="hl-label" style="color:var(--pur)">✂️ Réductions d'impôt (non remboursables)</div>
-  <div class="hl-value" style="color:var(--pur)">${fmt(total_red)} €</div>
-</div>
-<div class="card">
-  ${r_aide ? dr('Dons aide aux personnes <span class="ct">7UD</span> (75%/66%)', fmt(r_aide)+' €') : ''}
-  ${r_asso ? dr('Dons associations <span class="ct">7UF</span> (66%)', fmt(r_asso)+' €') : ''}
-  ${r_pol  ? dr('Dons politiques <span class="ct">7UH</span> (66%)', fmt(r_pol)+' €') : ''}
-  ${r_synd ? dr('Cotisations syndicales <span class="ct">7AC</span> (66%)', fmt(r_synd)+' €') : ''}
-  ${r_scol ? dr('Frais scolarité (collège / lycée / supérieur)', fmt(r_scol)+' €') : ''}
-  ${pinel  ? dr('Pinel / Denormandie <span class="ct">7QR</span>', fmt(pinel)+' €') : ''}
-  ${r_pme  ? dr('Souscription PME <span class="ct">7CF</span> (18%)', fmt(r_pme)+' €') : ''}
-  ${!total_red ? '<div class="detail-row"><span class="dr-label" style="color:var(--text3);font-style:italic">Aucune réduction saisie</span><span class="dr-val">0 €</span></div>' : ''}
-</div>
-
-<div class="highlight hl-pur">
-  <div class="hl-label">💶 Crédits d'impôt (remboursables)</div>
-  <div class="hl-value">${fmt(total_cred)} €</div>
-</div>
-<div class="card">
-  ${cr_empl   ? dr('Emploi à domicile <span class="ct">7DB</span> (50%)', fmt(cr_empl)+' €') : ''}
-  ${cr_gard   ? dr('Garde enfants hors domicile <span class="ct">7GA</span> (50%)', fmt(cr_gard)+' €') : ''}
-  ${renov     ? dr('Rénovation énergétique <span class="ct">7WF</span>', fmt(renov)+' €') : ''}
-  ${hand      ? dr('Adaptation logement <span class="ct">7WJ</span>', fmt(hand)+' €') : ''}
-  ${cr_ehpad  ? dr('EHPAD / dépendance <span class="ct">7CD</span> (25%)', fmt(cr_ehpad)+' €') : ''}
-  ${form_dir  ? dr('Formation dirigeants <span class="ct">7FF</span>', fmt(form_dir)+' €') : ''}
-  ${cr_patrim ? dr('Patrimoine naturel <span class="ct">7KA</span> (25%)', fmt(cr_patrim)+' €') : ''}
-  ${!total_cred ? '<div class="detail-row"><span class="dr-label" style="color:var(--text3);font-style:italic">Aucun crédit saisi</span><span class="dr-val">0 €</span></div>' : ''}
-</div>
-
-<div class="info-box">
-  <strong>Rappel :</strong> les déductions réduisent la base imposable. Les réductions et crédits s'imputent sur l'impôt calculé. Seuls les crédits sont remboursables. Conservez tous justificatifs 3 ans (art. L.102 B LPF).
-</div>`;
+  renderIR(S);
+  renderRes(S);
 }
 
-/* ════════════════════════════════════════════════════
-   EXPORT PDF
-   ════════════════════════════════════════════════════ */
+function renderIR(s){
+  const irf=s.irf, irr=s.irr;
+  if(!s.sal_total){
+    document.getElementById('ir-area').innerHTML='<div class="ib">Renseignez votre salaire dans l\'onglet Situation.</div>';
+    document.getElementById('ir-impact-area').innerHTML='<div class="ib">L\'impact sera calculé automatiquement.</div>';
+    return;
+  }
+  document.getElementById('ir-area').innerHTML=`
+<div class="hl hl-amber">
+  <div class="hl-l">IR estimé avec déduction forfaitaire 10%</div>
+  <div class="hl-v">${fmt(irf.ir_final)} €</div>
+  <div class="hl-sub">Taux effectif : ${(irf.teff*100).toFixed(1)}% · Tranche marginale : ${(irf.tm*100).toFixed(0)}%</div>
+</div>
+<div class="card">
+  <div class="dr"><span class="dr-l">Salaire total imposable</span><span class="dr-v">${fmt(s.sal_total)} €</span></div>
+  <div class="dr"><span class="dr-l">Abattement 10% (min ${fmt(ABAT_MIN)} €, max ${fmt(ABAT_MAX)} €)</span><span class="dr-v">− ${fmt(irf.abat_v)} €</span></div>
+  ${s.total_ded?`<div class="dr"><span class="dr-l">Déductions complémentaires</span><span class="dr-v">− ${fmt(s.total_ded)} €</span></div>`:''}
+  <div class="dr"><span class="dr-l">Revenu net imposable (RNI)</span><span class="dr-v">${fmt(irf.rni)} €</span></div>
+  <div class="dr"><span class="dr-l">Parts fiscales</span><span class="dr-v">${irf.parts.toFixed(1)} part(s)</span></div>
+  <div class="dr"><span class="dr-l">IR brut (barème progressif)</span><span class="dr-v">${fmt(irf.ir_brut)} €</span></div>
+  <div class="dr"><span class="dr-l">Décote</span><span class="dr-v">− ${fmt(irf.dec)} €</span></div>
+  ${s.total_red?`<div class="dr"><span class="dr-l">Réductions d'impôt</span><span class="dr-v">− ${fmt(s.total_red)} €</span></div>`:''}
+  ${s.total_cred?`<div class="dr"><span class="dr-l">Crédits d'impôt remboursables</span><span class="dr-v">− ${fmt(s.total_cred)} €</span></div>`:''}
+  <div class="dr" style="font-weight:600;color:var(--text)"><span class="dr-l">IR NET ESTIMÉ</span><span class="dr-v">${fmt(irf.ir_final)} €</span></div>
+</div>`;
+
+  document.getElementById('ir-impact-area').innerHTML=s.gain_fr>0?`
+<div class="hl hl-grn">
+  <div class="hl-l">💡 Gain IR réel grâce aux frais réels</div>
+  <div class="hl-v">− ${fmt(s.gain_ir)} €</div>
+  <div class="hl-sub">IR avec frais réels : ${fmt(irr.ir_final)} € vs ${fmt(irf.ir_final)} € avec forfait</div>
+</div>
+<div class="card">
+  <div class="dr"><span class="dr-l">Frais réels déclarés <span class="ct">1AK</span></span><span class="dr-v">${fmt(s.total_fr)} €</span></div>
+  <div class="dr"><span class="dr-l">vs abattement forfaitaire 10%</span><span class="dr-v">${fmt(s.forfait)} €</span></div>
+  <div class="dr"><span class="dr-l">Surplus de déduction</span><span class="dr-v">+ ${fmt(s.gain_fr)} €</span></div>
+  <div class="dr"><span class="dr-l">RNI avec frais réels</span><span class="dr-v">${fmt(irr.rni)} €</span></div>
+  <div class="dr" style="font-weight:600;color:var(--green)"><span class="dr-l">IR final avec frais réels</span><span class="dr-v">${fmt(irr.ir_final)} €</span></div>
+  <div class="dr" style="font-weight:600;color:var(--green)"><span class="dr-l">Économie d'impôt réelle</span><span class="dr-v">− ${fmt(s.gain_ir)} €</span></div>
+</div>`:s.gain_fr<0?`
+<div class="hl hl-blu">
+  <div class="hl-l">ℹ️ Déduction forfaitaire plus avantageuse</div>
+  <div class="hl-v">${fmt(irf.ir_final)} €</div>
+  <div class="hl-sub">Frais réels (${fmt(s.total_fr)} €) inférieurs au forfait (${fmt(s.forfait)} €)</div>
+</div>`:'<div class="ib">Renseignez vos frais dans l\'onglet Frais réels pour voir l\'impact.</div>';
+}
+
+function renderRes(s){
+  const cvLbl=s.isA?(vs('cv')+' CV'):s.isM?'Moto':s.isC?'Cyclo':'—';
+  const kmD=s.frais_km!==null?fmt(s.frais_km)+' €':'— (véhicule non renseigné)';
+  const gc=s.gain_fr>0?'var(--green)':'#c0392b';
+  function dr(l,val){return`<div class="dr"><span class="dr-l">${l}</span><span class="dr-v">${val}</span></div>`;}
+  document.getElementById('res-area').innerHTML=`
+${!s.hasCV&&s.vt?'<div class="ib warn" style="margin-bottom:.65rem">⚠ Puissance fiscale non renseignée — frais kilométriques non calculés</div>':''}
+<div class="hl hl-grn"><div class="hl-l">🚗 Frais réels — Total estimé <span class="ct">1AK</span></div><div class="hl-v">${fmt(s.total_fr)} €</div></div>
+<div class="card">
+  ${dr('Frais kilométriques (barème '+cvLbl+', '+fmt(s.km_pro)+' km)',kmD)}
+  ${dr('Frais de repas ('+s.j_rep+' j × 5,45 € × '+Math.round((1-s.pct_rep)*100)+'%)',fmt(s.repas_net)+' €')}
+  ${dr('Frais de télétravail ('+s.ttj+' j × 2,70 €'+(s.tt_brut>626.40?' plafonné':'')+')',fmt2(s.tt_m)+' €')}
+  ${s.inter_pro?dr('Intérêts crédit auto ('+Math.round(s.pct_pro*100)+'% pro)',fmt(s.inter_pro)+' €'):''}
+  ${(s.synd+s.form_fr+s.doc_fr+s.dres+s.vet+s.autr)?dr('Autres frais professionnels',fmt(s.synd+s.form_fr+s.doc_fr+s.dres+s.vet+s.autr)+' €'):''}
+  <div class="dr"><span class="dr-l" style="font-weight:600">vs déduction forfaitaire 10% (${fmt(s.forfait)} €)</span><span class="dr-v" style="color:${gc}">${s.gain_fr>0?'✓ +':'✗ '}${fmt(s.gain_fr)} €</span></div>
+</div>
+<div class="hl hl-blu"><div class="hl-l">📉 Déductions du revenu imposable</div><div class="hl-v">${fmt(s.total_ded)} €</div></div>
+<div class="card">
+  ${s.per?dr('PER / PERP <span class="ct">6NS</span>',fmt(s.per)+' €'):''}${s.p_enf?dr('Pension enfants <span class="ct">6EL</span>',fmt(s.p_enf)+' €'):''}
+  ${s.p_exc?dr('Pension ex-conjoint <span class="ct">6GP</span>',fmt(s.p_exc)+' €'):''}${s.p_asc?dr('Pension ascendants <span class="ct">6GU</span>',fmt(s.p_asc)+' €'):''}
+  ${s.def_fonc?dr('Déficit foncier <span class="ct">4BC</span>',fmt(s.def_fonc)+' €'):''}${s.csg?dr('CSG déductible <span class="ct">6DE</span>',fmt(s.csg)+' €'):''}
+  ${!s.total_ded?'<div class="dr"><span class="dr-l" style="color:var(--text3);font-style:italic">Aucune déduction saisie</span><span class="dr-v">0 €</span></div>':''}
+</div>
+<div class="hl" style="background:var(--pur-lt);border:1.5px solid var(--pur-bd)"><div class="hl-l" style="color:var(--pur)">✂️ Réductions d'impôt (non remboursables)</div><div class="hl-v" style="color:var(--pur)">${fmt(s.total_red)} €</div></div>
+<div class="card">
+  ${s.r_aide?dr('Dons aide aux personnes <span class="ct">7UD</span>',fmt(s.r_aide)+' €'):''}${s.r_asso?dr('Dons associations <span class="ct">7UF</span>',fmt(s.r_asso)+' €'):''}
+  ${s.r_pol?dr('Dons politiques <span class="ct">7UH</span>',fmt(s.r_pol)+' €'):''}${s.r_synd?dr('Cotisations syndicales <span class="ct">7AC</span>',fmt(s.r_synd)+' €'):''}
+  ${s.r_scol?dr('Frais scolarité',fmt(s.r_scol)+' €'):''}${s.pinel?dr('Pinel / Denormandie <span class="ct">7QR</span>',fmt(s.pinel)+' €'):''}
+  ${s.r_pme?dr('Souscription PME <span class="ct">7CF</span>',fmt(s.r_pme)+' €'):''}
+  ${!s.total_red?'<div class="dr"><span class="dr-l" style="color:var(--text3);font-style:italic">Aucune réduction saisie</span><span class="dr-v">0 €</span></div>':''}
+</div>
+<div class="hl hl-pur"><div class="hl-l">💶 Crédits d'impôt (remboursables)</div><div class="hl-v">${fmt(s.total_cred)} €</div></div>
+<div class="card">
+  ${s.cr_empl?dr('Emploi à domicile <span class="ct">7DB</span>',fmt(s.cr_empl)+' €'):''}${s.cr_gard?dr('Garde enfants <span class="ct">7GA</span>',fmt(s.cr_gard)+' €'):''}
+  ${s.renov?dr('Rénovation énergétique <span class="ct">7WF</span>',fmt(s.renov)+' €'):''}${s.hand?dr('Adaptation logement <span class="ct">7WJ</span>',fmt(s.hand)+' €'):''}
+  ${s.cr_ehpad?dr('EHPAD <span class="ct">7CD</span>',fmt(s.cr_ehpad)+' €'):''}${s.form_dir?dr('Formation dirigeants <span class="ct">7FF</span>',fmt(s.form_dir)+' €'):''}
+  ${s.cr_patrim?dr('Patrimoine naturel <span class="ct">7KA</span>',fmt(s.cr_patrim)+' €'):''}
+  ${!s.total_cred?'<div class="dr"><span class="dr-l" style="color:var(--text3);font-style:italic">Aucun crédit saisi</span><span class="dr-v">0 €</span></div>':''}
+</div>
+<div class="hl hl-amber">
+  <div class="hl-l">🧮 IR net estimé (moteur validé OpenFisca-France v175)</div>
+  <div class="hl-v">${fmt(s.irr.ir_final)} €</div>
+  <div class="hl-sub">${s.gain_fr>0?'Avec frais réels — économie de '+fmt(s.gain_ir)+' € vs forfait':'Avec déduction forfaitaire 10%'} · Taux effectif : ${(s.irr.teff*100).toFixed(1)}%</div>
+</div>
+<div class="ib">Conservez tous justificatifs 3 ans (art. L.102 B LPF). Résultats estimatifs — consultez votre centre des impôts pour validation.</div>`;
+}
+
+/* ══ EXPORT PDF ══ */
 function exportPDF(){
   calc();
-  const s   = S;
-  const dt  = new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
-  const vt  = s.vt;
-  const isAuto  = vt==='auto_th'||vt==='auto_el';
-  const isMoto  = vt==='moto';
-  const isCyclo = vt==='cyclo';
-  const cvLbl   = isAuto?(vs('cv')+' CV '+(vt==='auto_el'?'électrique':'thermique')):isMoto?'Moto':isCyclo?'Cyclomoteur':'Non renseigné';
-  const kmD     = s.frais_km!==null ? fmt(s.frais_km)+' €' : 'Non calculé';
-  const gColor  = s.gain_fr>0?'#085041':'#993C1D';
-  const hasCV   = s.frais_km!==null;
+  const s=S;
+  const dt=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  const cvLbl=s.isA?(vs('cv')+' CV '+(s.vt==='auto_el'?'électrique':'thermique')):s.isM?'Moto':s.isC?'Cyclo':'Non renseigné';
+  const kmD=s.frais_km!==null?fmt(s.frais_km)+' €':'Non calculé';
+  const gc=s.gain_fr>0?'#085041':'#c0392b';
+  const sitLbl={'celib':'Célibataire','marie':'Marié / Pacsé','veuf':'Veuf(ve)'}[s.sit]||s.sit;
+  const noCV=!s.hasCV&&s.vt?`<div style="border:1pt solid #BA7517;border-radius:3pt;padding:5pt 7pt;background:#faeeda;font-size:8pt;color:#634806;margin-bottom:7pt"><b>⚠ Puissance fiscale non renseignée.</b> Vérifiez la case P.6 de la carte grise.</div>`:'';
 
-  const noCV = !hasCV ? `<div class="abox"><b>⚠ Véhicule non renseigné — frais kilométriques non calculés</b>Vérifiez la case P.6 de la carte grise, complétez le simulateur et réimprimez.</div>` : '';
+  const ttTxt=s.ttj>0?`Frais de télétravail : ${s.ttj} jours × 2,70 € = ${fmt2(s.tt_m)} €. `:'';
+  const itTxt=s.inter_pro>0?`Intérêts crédit auto proratisés (${Math.round(s.pct_pro*100)}%) : ${fmt(s.inter_pro)} €. `:'';
+  const dvTxt=(s.synd+s.form_fr+s.doc_fr+s.dres+s.vet+s.autr)>0?`Autres frais : ${fmt(s.synd+s.form_fr+s.doc_fr+s.dres+s.vet+s.autr)} €. `:'';
+  const texte=`Déclaration de frais réels — revenus 2025. Kilométrage professionnel : ${fmt(s.km_pro)} km (${s.j_dep} j × ${s.dist*2} km A/R), véhicule ${cvLbl}, frais barème : ${kmD}. Frais de repas : ${s.j_rep} j × 5,45 € × ${Math.round((1-s.pct_rep)*100)}% = ${fmt(s.repas_net)} €. ${ttTxt}${itTxt}${dvTxt}Total frais réels : ${fmt(s.total_fr)} €.`;
 
-  const ttTxt   = s.ttj>0    ? `Frais de télétravail : ${s.ttj} jours × 2,70 € = ${fmt2(s.tt_m)} €. ` : '';
-  const itTxt   = s.inter_pro>0 ? `Intérêts crédit auto proratisés (${Math.round(s.pct_pro*100)}% usage pro) : ${fmt(s.inter_pro)} €. ` : '';
-  const dvTxt   = (s.synd+s.form+s.doc+s.dres+s.vet+s.autr)>0 ? `Autres frais professionnels : ${fmt(s.synd+s.form+s.doc+s.dres+s.vet+s.autr)} €. ` : '';
-  const texte   = `Déclaration de frais réels — revenus 2025. `
-    +`Kilométrage professionnel : ${fmt(s.km_pro)} km (${s.j_dep} jours × ${s.dist*2} km A/R), véhicule ${cvLbl}, frais barème : ${kmD}. `
-    +`Frais de repas supplémentaires : ${s.j_rep} jours × 5,45 € × ${Math.round((1-s.pct_rep)*100)}% = ${fmt(s.repas_net)} €. `
-    +ttTxt+itTxt+dvTxt
-    +`Total frais réels : ${fmt(s.total_fr)} €.`;
+  const rw=(l,n,c='')=>n?`<tr><td>${l}</td><td class="p-note">${c}</td><td class="p-num">${fmt(n)} €</td></tr>`:'';
 
-  const rw = (l,n,c='') => n ? `<tr><td>${l}</td><td class="note">${c}</td><td class="num">${fmt(n)} €</td></tr>` : '';
-
-  document.getElementById('pz').innerHTML = `
-<div class="ph">
-  <div>
-    <h2>Déclaration fiscale — Revenus 2025</h2>
-    <p>Frais réels · Déductions · Réductions · Crédits d'impôt</p>
-  </div>
-  <div class="phr">
-    <strong>Formulaire 2042</strong>
-    Cases 1AK · 4BC · 6xx · 7xx<br>Édité le ${dt}
-  </div>
-</div>
+  document.getElementById('pz').innerHTML=`
+<div class="p-hdr"><div><h2>Déclaration Fiscale — Revenus 2025</h2><p>Frais réels · IR estimé · Déductions · Réductions · Crédits d'impôt</p></div><div class="p-hdr-r"><strong>Formulaire 2042</strong>Cases 1AK · 4BC · 6xx · 7xx<br>Édité le ${dt}</div></div>
 ${noCV}
-
-<div class="ps">
-  <div class="pst">A — Frais réels professionnels <span class="cb">1AK</span></div>
-  <div class="g2">
-    <div class="kv"><span>Jours travaillés 2025</span><span>${s.jt} j</span></div>
-    <div class="kv"><span>Jours de déplacement effectifs</span><span>${s.j_dep} j</span></div>
-    <div class="kv"><span>Jours en télétravail</span><span>${s.ttj} j</span></div>
-    <div class="kv"><span>Distance aller domicile-travail</span><span>${s.dist} km</span></div>
-    <div class="kv"><span>Km professionnels A/R</span><span>${fmt(s.km_pro)} km</span></div>
-    <div class="kv"><span>Véhicule</span><span>${cvLbl}</span></div>
-    <div class="kv"><span>Jours repas hors domicile (hors TT)</span><span>${s.j_rep} j</span></div>
-    <div class="kv"><span>Prise en charge repas employeur</span><span>${Math.round(s.pct_rep*100)} %</span></div>
-  </div>
-  <table>
-    <thead><tr><th style="width:36%">Poste</th><th>Base de calcul</th><th style="width:17%;text-align:right">Montant</th></tr></thead>
-    <tbody>
-      <tr><td>Frais kilométriques (barème DGFiP)</td><td class="note">${fmt(s.km_pro)} km · ${cvLbl}</td><td class="num">${kmD}</td></tr>
-      <tr><td>Frais de repas supplémentaires</td><td class="note">${s.j_rep} j × 5,45 € × ${Math.round((1-s.pct_rep)*100)}%</td><td class="num">${fmt(s.repas_net)} €</td></tr>
-      <tr><td>Frais de télétravail à domicile</td><td class="note">${s.ttj} j × 2,70 €${s.tt_brut>626.40?' (plafonné)':''}</td><td class="num">${fmt2(s.tt_m)} €</td></tr>
-      ${s.inter_pro ? `<tr><td>Intérêts crédit auto</td><td class="note">Proratisés à ${Math.round(s.pct_pro*100)}% usage pro</td><td class="num">${fmt(s.inter_pro)} €</td></tr>` : ''}
-      ${rw('Cotisations syndicales',s.synd)}
-      ${rw('Formations professionnelles',s.form)}
-      ${rw('Documentation professionnelle',s.doc)}
-      ${rw('Double résidence',s.dres)}
-      ${rw('Vêtements professionnels',s.vet)}
-      ${rw('Autres frais',s.autr)}
-      <tr class="tot"><td colspan="2">TOTAL FRAIS RÉELS <span class="cb">1AK</span></td><td class="num">${fmt(s.total_fr)} €</td></tr>
-    </tbody>
-  </table>
-  <div style="margin-top:3pt;font-size:7.5pt;color:#555">Déduction forfaitaire 10% : ${fmt(s.forfait)} € — Écart : <strong style="color:${gColor}">${s.gain_fr>0?'+':''}${fmt(s.gain_fr)} €</strong> — Option frais réels : <strong style="color:${gColor}">${s.gain_fr>0?'AVANTAGEUSE':'DÉFAVORABLE'}</strong></div>
-</div>
-
-${s.total_ded>0 ? `
-<div class="ps">
-  <div class="pst">B — Déductions du revenu imposable</div>
-  <table><thead><tr><th style="width:36%">Déduction</th><th>Case</th><th style="width:17%;text-align:right">Montant</th></tr></thead><tbody>
-  ${rw('PER / PERP / Madelin',s.per,'6NS / 6NT')}
-  ${rw('Pension enfants majeurs',s.p_enf,'6EL')}
-  ${rw('Pension ex-conjoint',s.p_exc,'6GP')}
-  ${rw('Pension ascendants',s.p_asc,'6GU')}
-  ${rw('Déficit foncier',s.def_fonc,'4BC')}
-  ${rw('CSG déductible',s.csg,'6DE')}
-  <tr class="tot"><td colspan="2">TOTAL DÉDUCTIONS</td><td class="num">${fmt(s.total_ded)} €</td></tr>
-  </tbody></table>
-</div>` : ''}
-
-${s.total_red>0 ? `
-<div class="ps">
-  <div class="pst">C — Réductions d'impôt (non remboursables)</div>
-  <table><thead><tr><th style="width:36%">Réduction</th><th>Case · Taux</th><th style="width:17%;text-align:right">Montant</th></tr></thead><tbody>
-  ${s.r_aide ? `<tr><td>Dons aide aux personnes</td><td class="note">7UD · 75%/66%</td><td class="num">${fmt(s.r_aide)} €</td></tr>` : ''}
-  ${s.r_asso ? `<tr><td>Dons associations</td><td class="note">7UF · 66%</td><td class="num">${fmt(s.r_asso)} €</td></tr>` : ''}
-  ${s.r_pol  ? `<tr><td>Dons politiques</td><td class="note">7UH · 66%</td><td class="num">${fmt(s.r_pol)} €</td></tr>` : ''}
-  ${s.r_synd ? `<tr><td>Cotisations syndicales</td><td class="note">7AC · 66%</td><td class="num">${fmt(s.r_synd)} €</td></tr>` : ''}
-  ${s.r_scol ? `<tr><td>Frais de scolarité</td><td class="note">7EA / 7EC / 7EF</td><td class="num">${fmt(s.r_scol)} €</td></tr>` : ''}
-  ${s.pinel  ? `<tr><td>Pinel / Denormandie</td><td class="note">7QR</td><td class="num">${fmt(s.pinel)} €</td></tr>` : ''}
-  ${s.r_pme  ? `<tr><td>Souscription PME</td><td class="note">7CF · 18%</td><td class="num">${fmt(s.r_pme)} €</td></tr>` : ''}
-  <tr class="tot"><td colspan="2">TOTAL RÉDUCTIONS</td><td class="num">${fmt(s.total_red)} €</td></tr>
-  </tbody></table>
-</div>` : ''}
-
-${s.total_cred>0 ? `
-<div class="ps">
-  <div class="pst">D — Crédits d'impôt (remboursables)</div>
-  <table><thead><tr><th style="width:36%">Crédit</th><th>Case · Taux</th><th style="width:17%;text-align:right">Montant</th></tr></thead><tbody>
-  ${s.cr_empl   ? `<tr><td>Emploi à domicile</td><td class="note">7DB · 50%</td><td class="num">${fmt(s.cr_empl)} €</td></tr>` : ''}
-  ${s.cr_gard   ? `<tr><td>Garde enfants hors domicile</td><td class="note">7GA · 50%</td><td class="num">${fmt(s.cr_gard)} €</td></tr>` : ''}
-  ${s.renov     ? `<tr><td>Rénovation énergétique</td><td class="note">7WF</td><td class="num">${fmt(s.renov)} €</td></tr>` : ''}
-  ${s.hand      ? `<tr><td>Adaptation logement</td><td class="note">7WJ</td><td class="num">${fmt(s.hand)} €</td></tr>` : ''}
-  ${s.cr_ehpad  ? `<tr><td>EHPAD / dépendance</td><td class="note">7CD · 25%</td><td class="num">${fmt(s.cr_ehpad)} €</td></tr>` : ''}
-  ${s.form_dir  ? `<tr><td>Formation dirigeants</td><td class="note">7FF</td><td class="num">${fmt(s.form_dir)} €</td></tr>` : ''}
-  ${s.cr_patrim ? `<tr><td>Patrimoine naturel</td><td class="note">7KA · 25%</td><td class="num">${fmt(s.cr_patrim)} €</td></tr>` : ''}
-  <tr class="tot"><td colspan="2">TOTAL CRÉDITS</td><td class="num">${fmt(s.total_cred)} €</td></tr>
-  </tbody></table>
-</div>` : ''}
-
-<div class="verd">
-  <div class="verd-l">${s.gain_fr>0?'✓ Option frais réels avantageuse':'✗ Option frais réels défavorable'}</div>
-  <div class="verd-v" style="color:${gColor}">Total à déclarer case 1AK : ${fmt(s.total_fr)} €</div>
-  <div class="verd-s">
-    Frais réels <strong>${s.gain_fr>0?'supérieurs de '+fmt(s.gain_fr)+' €':'inférieurs de '+fmt(Math.abs(s.gain_fr))+' €'}</strong> à la déduction forfaitaire (${fmt(s.forfait)} €).
-    ${s.gain_fr>0?'<strong>Ajoutez la case 1AK</strong> si elle n\'est pas pré-affichée dans votre déclaration en ligne.':'Conservez la déduction forfaitaire de 10% — aucune action requise.'}
-    ${s.total_ded>0 ? ' · Déductions revenu : '+fmt(s.total_ded)+' €.' : ''}
-    ${s.total_red>0 ? ' · Réductions impôt : '+fmt(s.total_red)+' €.' : ''}
-    ${s.total_cred>0 ? ' · Crédits remboursables : '+fmt(s.total_cred)+' €.' : ''}
+<div class="p-sec">
+  <div class="p-sec-t">A — Situation fiscale</div>
+  <div class="p-grid">
+    <div class="p-kv"><span>Situation familiale</span><span>${sitLbl}</span></div>
+    <div class="p-kv"><span>Enfants à charge</span><span>${s.nb_enf}</span></div>
+    <div class="p-kv"><span>Parts fiscales</span><span>${s.irr.parts.toFixed(1)}</span></div>
+    <div class="p-kv"><span>Salaire total imposable</span><span>${fmt(s.sal_total)} €</span></div>
+    <div class="p-kv"><span>Jours travaillés</span><span>${s.jt} j</span></div>
+    <div class="p-kv"><span>Jours télétravail</span><span>${s.ttj} j</span></div>
+    <div class="p-kv"><span>Jours déplacement effectifs</span><span>${s.j_dep} j</span></div>
+    <div class="p-kv"><span>Km professionnels A/R</span><span>${fmt(s.km_pro)} km</span></div>
+    <div class="p-kv"><span>Véhicule</span><span>${cvLbl}</span></div>
+    <div class="p-kv"><span>Jours repas hors domicile</span><span>${s.j_rep} j</span></div>
+    <div class="p-kv"><span>Prise en charge repas employeur</span><span>${Math.round(s.pct_rep*100)} %</span></div>
+    <div class="p-kv"><span>Usage professionnel véhicule</span><span>${Math.round(s.pct_pro*100)} %</span></div>
   </div>
 </div>
-
-<div class="rub">
-  <div class="rub-t">Texte à copier dans « Informations complémentaires » de la déclaration en ligne</div>
-  <div style="font-style:italic;color:#333;line-height:1.6;font-size:8pt">${texte}</div>
-</div>
-
-<div class="ps">
-  <div class="pst">Justificatifs à conserver 3 ans (art. L.102 B LPF)</div>
-  <table><tbody>
-    <tr><td style="width:26%;font-weight:600">Frais kilométriques</td><td>Carte grise, relevé kilométrique ou carnet de bord, calendrier de présence attesté par l'employeur</td></tr>
-    <tr><td style="font-weight:600">Repas</td><td>Tickets de caisse, notes de restaurant, bulletins de salaire (indemnités repas annuelles)</td></tr>
-    <tr><td style="font-weight:600">Télétravail</td><td>Accord télétravail avec l'employeur, calendrier 2025, factures internet et électricité proratisées</td></tr>
-    ${s.inter_pro ? `<tr><td style="font-weight:600">Crédit auto</td><td>Tableau d'amortissement, relevé annuel des intérêts payés en 2025</td></tr>` : ''}
-    ${s.total_ded ? `<tr><td style="font-weight:600">Déductions</td><td>Relevés PER, jugements / conventions pensions alimentaires, avis de taxation CSG</td></tr>` : ''}
-    ${s.total_red ? `<tr><td style="font-weight:600">Réductions</td><td>Reçus fiscaux associations (art. 200 CGI), attestations d'inscription scolaire</td></tr>` : ''}
-    ${s.total_cred? `<tr><td style="font-weight:600">Crédits</td><td>Attestations CESU, factures prestataires agréés, attestations crèche, factures travaux</td></tr>` : ''}
+<div class="p-sec">
+  <div class="p-sec-t">B — Frais réels professionnels <span class="p-cb">1AK</span></div>
+  <table class="p-tbl"><thead><tr><th style="width:36%">Poste</th><th>Base de calcul</th><th style="width:17%;text-align:right">Montant</th></tr></thead><tbody>
+    <tr><td>Frais kilométriques (barème DGFiP)</td><td class="p-note">${fmt(s.km_pro)} km · ${cvLbl}</td><td class="p-num">${kmD}</td></tr>
+    <tr><td>Frais de repas supplémentaires</td><td class="p-note">${s.j_rep} j × 5,45 € × ${Math.round((1-s.pct_rep)*100)}%</td><td class="p-num">${fmt(s.repas_net)} €</td></tr>
+    <tr><td>Frais de télétravail</td><td class="p-note">${s.ttj} j × 2,70 €${s.tt_brut>626.40?' (plafonné)':''}</td><td class="p-num">${fmt2(s.tt_m)} €</td></tr>
+    ${s.inter_pro?`<tr><td>Intérêts crédit auto</td><td class="p-note">${Math.round(s.pct_pro*100)}% usage pro</td><td class="p-num">${fmt(s.inter_pro)} €</td></tr>`:''}
+    ${rw('Cotisations syndicales',s.synd)}${rw('Formations',s.form_fr)}${rw('Documentation pro',s.doc_fr)}
+    ${rw('Double résidence',s.dres)}${rw('Vêtements professionnels',s.vet)}${rw('Autres frais',s.autr)}
+    <tr class="p-tot"><td colspan="2">TOTAL FRAIS RÉELS <span class="p-cb">1AK</span></td><td class="p-num">${fmt(s.total_fr)} €</td></tr>
   </tbody></table>
+  <div style="font-size:7.5pt;color:#555;margin-top:3pt">Abattement forfaitaire 10% : ${fmt(s.forfait)} € — Écart : <strong style="color:${gc}">${s.gain_fr>0?'+':''}${fmt(s.gain_fr)} €</strong> — Option frais réels : <strong style="color:${gc}">${s.gain_fr>0?'AVANTAGEUSE':'DÉFAVORABLE'}</strong></div>
 </div>
-
-<div class="refs">
-  <b>Références réglementaires</b>
-  Barème kilométrique 2025 — dépliant GP 120 DGFiP, mars 2026 · Art. 83 CGI (frais réels) · BOFiP RSA-BASE-30-50-30-20 §550 (repas TT = 0 €) · Télétravail : 2,70 €/j, plafond 626,40 €/an (Arrêté 26/02/2021 mod.) · Valeur repas foyer 2025 : 5,45 € (impots.gouv.fr) · Plafond repas : 21,10 €/repas · Art. 199 quater B (scolarité) · Art. 200 CGI (dons) · Art. 199 quater C (syndicats)
+${s.total_ded>0?`<div class="p-sec"><div class="p-sec-t">C — Déductions du revenu imposable</div><table class="p-tbl"><thead><tr><th style="width:40%">Déduction</th><th>Case</th><th style="width:17%;text-align:right">Montant</th></tr></thead><tbody>${rw('PER / PERP / Madelin',s.per,'6NS / 6NT')}${rw('Pension enfants majeurs',s.p_enf,'6EL')}${rw('Pension ex-conjoint',s.p_exc,'6GP')}${rw('Pension ascendants',s.p_asc,'6GU')}${rw('Déficit foncier',s.def_fonc,'4BC')}${rw('CSG déductible',s.csg,'6DE')}<tr class="p-tot"><td colspan="2">TOTAL DÉDUCTIONS</td><td class="p-num">${fmt(s.total_ded)} €</td></tr></tbody></table></div>`:''}
+${s.total_red>0?`<div class="p-sec"><div class="p-sec-t">D — Réductions d'impôt (non remboursables)</div><table class="p-tbl"><thead><tr><th style="width:40%">Réduction</th><th>Case · Taux</th><th style="width:17%;text-align:right">Montant</th></tr></thead><tbody>${s.r_aide?`<tr><td>Dons aide aux personnes</td><td class="p-note">7UD · 75%/66%</td><td class="p-num">${fmt(s.r_aide)} €</td></tr>`:''}${s.r_asso?`<tr><td>Dons associations</td><td class="p-note">7UF · 66%</td><td class="p-num">${fmt(s.r_asso)} €</td></tr>`:''}${s.r_pol?`<tr><td>Dons politiques</td><td class="p-note">7UH · 66%</td><td class="p-num">${fmt(s.r_pol)} €</td></tr>`:''}${s.r_synd?`<tr><td>Cotisations syndicales</td><td class="p-note">7AC · 66%</td><td class="p-num">${fmt(s.r_synd)} €</td></tr>`:''}${s.r_scol?`<tr><td>Frais de scolarité</td><td class="p-note">7EA/7EC/7EF</td><td class="p-num">${fmt(s.r_scol)} €</td></tr>`:''}${s.pinel?`<tr><td>Pinel / Denormandie</td><td class="p-note">7QR</td><td class="p-num">${fmt(s.pinel)} €</td></tr>`:''}${s.r_pme?`<tr><td>Souscription PME</td><td class="p-note">7CF · 18%</td><td class="p-num">${fmt(s.r_pme)} €</td></tr>`:''}<tr class="p-tot"><td colspan="2">TOTAL RÉDUCTIONS</td><td class="p-num">${fmt(s.total_red)} €</td></tr></tbody></table></div>`:''}
+${s.total_cred>0?`<div class="p-sec"><div class="p-sec-t">E — Crédits d'impôt (remboursables)</div><table class="p-tbl"><thead><tr><th style="width:40%">Crédit</th><th>Case · Taux</th><th style="width:17%;text-align:right">Montant</th></tr></thead><tbody>${s.cr_empl?`<tr><td>Emploi à domicile</td><td class="p-note">7DB · 50%</td><td class="p-num">${fmt(s.cr_empl)} €</td></tr>`:''}${s.cr_gard?`<tr><td>Garde enfants hors domicile</td><td class="p-note">7GA · 50%</td><td class="p-num">${fmt(s.cr_gard)} €</td></tr>`:''}${s.renov?`<tr><td>Rénovation énergétique</td><td class="p-note">7WF</td><td class="p-num">${fmt(s.renov)} €</td></tr>`:''}${s.hand?`<tr><td>Adaptation logement</td><td class="p-note">7WJ</td><td class="p-num">${fmt(s.hand)} €</td></tr>`:''}${s.cr_ehpad?`<tr><td>EHPAD / dépendance</td><td class="p-note">7CD · 25%</td><td class="p-num">${fmt(s.cr_ehpad)} €</td></tr>`:''}${s.form_dir?`<tr><td>Formation dirigeants</td><td class="p-note">7FF</td><td class="p-num">${fmt(s.form_dir)} €</td></tr>`:''}${s.cr_patrim?`<tr><td>Patrimoine naturel</td><td class="p-note">7KA · 25%</td><td class="p-num">${fmt(s.cr_patrim)} €</td></tr>`:''}<tr class="p-tot"><td colspan="2">TOTAL CRÉDITS</td><td class="p-num">${fmt(s.total_cred)} €</td></tr></tbody></table></div>`:''}
+<div class="p-verd">
+  <div class="p-verd-l">${s.gain_fr>0?'✓ Option frais réels avantageuse':'ℹ Déduction forfaitaire 10% conservée'}</div>
+  <div class="p-verd-v" style="color:${gc}">Frais réels à déclarer case 1AK : ${fmt(s.total_fr)} €</div>
+  <div class="p-verd-s">${s.gain_fr>0?`Supérieurs de <strong>${fmt(s.gain_fr)} €</strong> au forfait — <strong>Ajoutez la case 1AK</strong> dans votre déclaration en ligne si non pré-affichée.`:`Inférieurs de <strong>${fmt(Math.abs(s.gain_fr))} €</strong> au forfait — Conservez la déduction forfaitaire, aucune action requise.`}</div>
 </div>
-
-<div class="foot">
-  Document établi à titre informatif à partir des données saisies. Aucune valeur juridique. Vérifiez les montants auprès de votre centre des impôts ou d'un conseiller fiscal avant tout dépôt. — Généré le ${dt}.
+<div class="p-ir">
+  <div class="p-ir-l">🧮 IR net estimé — Moteur validé OpenFisca-France v175</div>
+  <div class="p-ir-v">${fmt(s.irr.ir_final)} €</div>
+  <div style="font-size:7.5pt;color:#185FA5;margin-top:3pt">RNI : ${fmt(s.irr.rni)} € · ${s.irr.parts.toFixed(1)} part(s) · IR brut : ${fmt(s.irr.ir_brut)} € · Décote : ${fmt(s.irr.dec)} € · Taux effectif : ${(s.irr.teff*100).toFixed(1)}%${s.gain_ir>0?' · Économie frais réels : − '+fmt(s.gain_ir)+' €':''}</div>
 </div>
-<div class="cprt">© Marc Chevallay — Tous droits réservés · Simulateur fiscal 2025 · Déclaration 2026</div>`;
+<div class="p-rub"><div class="p-rub-t">Texte à copier dans « Informations complémentaires » de la déclaration en ligne</div><div style="font-style:italic;color:#333;line-height:1.6;font-size:8pt">${texte}</div></div>
+<div class="p-sec"><div class="p-sec-t">Justificatifs à conserver 3 ans (art. L.102 B LPF)</div><table class="p-tbl"><tbody><tr><td style="width:26%;font-weight:600">Frais kilométriques</td><td>Carte grise, relevé kilométrique ou carnet de bord, calendrier de présence attesté par l'employeur</td></tr><tr><td style="font-weight:600">Repas</td><td>Tickets de caisse, notes de restaurant, bulletins de salaire (indemnités repas annuelles)</td></tr><tr><td style="font-weight:600">Télétravail</td><td>Accord télétravail avec l'employeur, calendrier 2025, factures internet et électricité</td></tr>${s.inter_pro?`<tr><td style="font-weight:600">Crédit auto</td><td>Tableau d'amortissement, relevé annuel des intérêts 2025</td></tr>`:''}${s.total_ded?`<tr><td style="font-weight:600">Déductions</td><td>Relevés PER, jugements/conventions pensions, avis CSG</td></tr>`:''}${s.total_red?`<tr><td style="font-weight:600">Réductions</td><td>Reçus fiscaux associations (art. 200 CGI), attestations scolaires</td></tr>`:''}${s.total_cred?`<tr><td style="font-weight:600">Crédits</td><td>Attestations CESU, factures prestataires agréés, attestations crèche, factures travaux</td></tr>`:''}></tbody></table></div>
+<div class="p-refs"><b>Références réglementaires</b>Barème IR 2025 validé OpenFisca-France v175 · Barème kilométrique DGFiP GP 120, mars 2026 · Art. 83 CGI · BOFiP RSA-BASE-30-50-30-20 §550 · Arrêté 26/02/2021 mod. (TT 2,70 €/j) · Valeur repas foyer : 5,45 € · Plafond repas : 21,10 €/repas · Art. 200 CGI (dons) · Art. 199 quater B (scolarité)</div>
+<div class="p-foot">Résultats estimatifs. Document sans valeur juridique. Vérifiez les montants auprès de votre centre des impôts ou d'un conseiller fiscal avant tout dépôt. — Généré le ${dt}.</div>
+<div class="p-cprt">© Marc Chevallay — Tous droits réservés · Simulateur Fiscal 2025 · Déclaration 2026</div>`;
 
-  window.print();
+  // Petit délai pour que le DOM soit prêt avant l'impression
+  setTimeout(()=>window.print(), 200);
 }
 
-/* ════════════════════════════════════════════════════
-   NAVIGATION
-   ════════════════════════════════════════════════════ */
 function go(name){
-  const ids = ['infos','frais','ded','red','cred','res'];
-  document.querySelectorAll('.nav-tab').forEach((t,i) => t.classList.toggle('active', ids[i]===name));
-  document.querySelectorAll('.panel').forEach((p,i)   => p.classList.toggle('active', ids[i]===name));
-
-  /* Scroll l'onglet actif dans la vue sur mobile */
-  const activeTab = document.querySelector('.nav-tab.active');
-  if(activeTab) activeTab.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
-
-  if(name==='res') calc();
-
-  /* Scroll vers le haut du contenu */
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  const ids=['sit','fr','ded','red','cred','ir','res'];
+  document.querySelectorAll('.nt').forEach((t,i)=>t.classList.toggle('active',ids[i]===name));
+  document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active',ids[i]===name));
+  const at=document.querySelector('.nt.active');
+  if(at)at.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  if(name==='res'||name==='ir')calc();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* Initialisation */
 calc();
 </script>
 </body>
